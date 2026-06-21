@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maui Trip Shopping List</title>
+  <style>
+    :root {
+      --bg: #f7f3ea;
+      --card: #fffdf8;
+      --ink: #23342f;
+      --muted: #65736d;
+      --green: #2f6b4f;
+      --green2: #79a87b;
+      --sand: #e8d5a5;
+      --blue: #2d7184;
+      --coral: #d86f45;
+      --shadow: 0 18px 45px rgba(24, 47, 39, .16);
+      --radius: 24px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: radial-gradient(circle at top left, #fff8dd, var(--bg) 35%, #e7f0ec 100%);
+      line-height: 1.5;
+    }
+    .hero {
+      min-height: 42vh;
+      position: relative;
+      display: grid;
+      align-items: end;
+      padding: 32px;
+      overflow: hidden;
+      background-image: linear-gradient(to bottom, rgba(0,0,0,.15), rgba(0,0,0,.65)),
+        url('https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Bridge_on_Hana_Highway.jpg/960px-Bridge_on_Hana_Highway.jpg');
+      background-size: cover;
+      background-position: center;
+    }
+    .hero-content { max-width: 1050px; margin: 0 auto; color: white; width: 100%; }
+    .eyebrow {
+      display: inline-flex; gap: 8px; align-items: center;
+      background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.4);
+      backdrop-filter: blur(8px); border-radius: 999px; padding: 9px 14px;
+      font-weight: 700; letter-spacing: .02em; margin-bottom: 18px;
+    }
+    h1 { font-size: clamp(2.4rem, 6vw, 4.6rem); line-height: .92; margin: 0 0 14px; letter-spacing: -.05em; }
+    .hero p { max-width: 720px; font-size: clamp(1.02rem, 2vw, 1.3rem); color: rgba(255,255,255,.92); margin: 0; }
+    main { max-width: 1100px; margin: -46px auto 60px; position: relative; padding: 0 24px; }
+    .toolbar {
+      background: var(--card); box-shadow: var(--shadow); border-radius: var(--radius);
+      padding: 22px 26px; margin-bottom: 26px;
+      display: flex; flex-wrap: wrap; align-items: center; gap: 18px; justify-content: space-between;
+    }
+    .progress-wrap { flex: 1; min-width: 240px; }
+    .progress-label { font-weight: 800; margin-bottom: 8px; display: flex; justify-content: space-between; }
+    .progress-track { height: 14px; background: #ede6d4; border-radius: 999px; overflow: hidden; }
+    .progress-bar { height: 100%; width: 0; background: linear-gradient(90deg, var(--green2), var(--green)); transition: width .3s ease; }
+    .btns { display: flex; gap: 10px; flex-wrap: wrap; }
+    button {
+      border: 0; padding: 12px 18px; border-radius: 999px; font-size: .95rem; font-weight: 800;
+      cursor: pointer; background: white; color: var(--ink); box-shadow: 0 6px 18px rgba(0,0,0,.08);
+    }
+    button.primary { background: var(--green); color: white; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 22px; }
+    .cat {
+      background: var(--card); box-shadow: var(--shadow); border-radius: var(--radius);
+      padding: 24px; break-inside: avoid;
+    }
+    .tag {
+      display: inline-block; padding: 6px 12px; border-radius: 999px;
+      font-weight: 800; font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 14px;
+      background: var(--sand); color: #5a461d;
+    }
+    .tag.green { background: #d9ead9; color: #24533c; }
+    .tag.coral { background: #ffe1d1; color: #8f3517; }
+    .tag.blue { background: #d9ecf1; color: #1d5563; }
+    .tag.sun { background: #fff0c2; color: #806100; }
+    ul { list-style: none; margin: 0; padding: 0; }
+    li { display: flex; align-items: flex-start; gap: 12px; padding: 10px 6px; border-radius: 12px; transition: background .15s; }
+    li:hover { background: #f5f1e6; }
+    li label { display: flex; align-items: flex-start; gap: 12px; cursor: pointer; width: 100%; }
+    input[type="checkbox"] { width: 22px; height: 22px; margin-top: 2px; accent-color: var(--green); cursor: pointer; flex: 0 0 auto; }
+    .item-name { font-weight: 600; }
+    .item-note { color: var(--muted); font-size: .9rem; }
+    li.done .item-name { text-decoration: line-through; color: var(--muted); }
+    .foot { max-width: 1100px; margin: 0 auto; padding: 0 24px 50px; color: var(--muted); font-size: .92rem; text-align: center; }
+    @media print {
+      .hero { min-height: auto; padding: 20px; background: var(--green); }
+      .toolbar .btns { display: none; }
+      body { background: white; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-content">
+      <span class="eyebrow">🌺 Maui Family Trip</span>
+      <h1>Shopping List</h1>
+      <p>Everything we need to grab before we hit the Road to Hana. Check items off as they land in the cart — your progress saves automatically on this device.</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="toolbar">
+      <div class="progress-wrap">
+        <div class="progress-label"><span>Packed &amp; bought</span><span id="count">0 / 0</span></div>
+        <div class="progress-track"><div class="progress-bar" id="bar"></div></div>
+      </div>
+      <div class="btns">
+        <button onclick="window.print()">🖨️ Print</button>
+        <button class="primary" id="reset">↺ Reset checks</button>
+      </div>
+    </div>
+
+    <div class="grid" id="grid">
+      <section class="cat">
+        <span class="tag blue">Beach &amp; Snorkel</span>
+        <ul>
+          <li><label><input type="checkbox" data-id="reef-sunscreen"><span><span class="item-name">Reef-safe sunscreen</span><br><span class="item-note">SPF 50, mineral — required on Maui beaches</span></span></label></li>
+          <li><label><input type="checkbox" data-id="snorkel-sets"><span><span class="item-name">Snorkel sets</span><br><span class="item-note">Adult + kid sizes; mask, snorkel, fins</span></span></label></li>
+          <li><label><input type="checkbox" data-id="rash-guards"><span><span class="item-name">Rash guards</span><br><span class="item-note">UV protection for the whole family</span></span></label></li>
+          <li><label><input type="checkbox" data-id="water-shoes"><span><span class="item-name">Water shoes</span><br><span class="item-note">For rocky entries &amp; lava rock</span></span></label></li>
+          <li><label><input type="checkbox" data-id="dry-bag"><span><span class="item-name">Dry bag</span><br><span class="item-note">Phones, keys, wallets at the beach</span></span></label></li>
+          <li><label><input type="checkbox" data-id="beach-towels"><span><span class="item-name">Microfiber beach towels</span></span></label></li>
+          <li><label><input type="checkbox" data-id="cooler"><span><span class="item-name">Soft cooler bag</span></span></label></li>
+        </ul>
+      </section>
+
+      <section class="cat">
+        <span class="tag coral">Road to Hana Day</span>
+        <ul>
+          <li><label><input type="checkbox" data-id="motion-sickness"><span><span class="item-name">Motion-sickness tablets / wristbands</span><br><span class="item-note">600+ curves — everyone will want these</span></span></label></li>
+          <li><label><input type="checkbox" data-id="water-bottles"><span><span class="item-name">Reusable water bottles</span></span></label></li>
+          <li><label><input type="checkbox" data-id="snacks"><span><span class="item-name">Road snacks</span><br><span class="item-note">Few stores past Paia</span></span></label></li>
+          <li><label><input type="checkbox" data-id="wipes"><span><span class="item-name">Wet wipes &amp; paper towels</span></span></label></li>
+          <li><label><input type="checkbox" data-id="trash-bags"><span><span class="item-name">Trash bags</span></span></label></li>
+          <li><label><input type="checkbox" data-id="offline-map"><span><span class="item-name">Offline map / GPS audio tour</span><br><span class="item-note">Spotty cell service — download ahead</span></span></label></li>
+          <li><label><input type="checkbox" data-id="cash"><span><span class="item-name">Small cash</span><br><span class="item-note">Roadside fruit &amp; banana bread stands</span></span></label></li>
+          <li><label><input type="checkbox" data-id="phone-mount"><span><span class="item-name">Phone car mount</span></span></label></li>
+        </ul>
+      </section>
+
+      <section class="cat">
+        <span class="tag sun">Sun &amp; Bugs</span>
+        <ul>
+          <li><label><input type="checkbox" data-id="hats"><span><span class="item-name">Hats / visors</span></span></label></li>
+          <li><label><input type="checkbox" data-id="sunglasses"><span><span class="item-name">Polarized sunglasses</span></span></label></li>
+          <li><label><input type="checkbox" data-id="bug-spray"><span><span class="item-name">Mosquito repellent</span><br><span class="item-note">Rainforest = bugs</span></span></label></li>
+          <li><label><input type="checkbox" data-id="aftersun"><span><span class="item-name">Aloe / after-sun gel</span></span></label></li>
+          <li><label><input type="checkbox" data-id="lip-balm"><span><span class="item-name">SPF lip balm</span></span></label></li>
+        </ul>
+      </section>
+
+      <section class="cat">
+        <span class="tag green">Hiking &amp; Rain</span>
+        <ul>
+          <li><label><input type="checkbox" data-id="rain-jackets"><span><span class="item-name">Light rain jackets / ponchos</span><br><span class="item-note">Quick rainforest showers</span></span></label></li>
+          <li><label><input type="checkbox" data-id="trail-shoes"><span><span class="item-name">Trail shoes / sturdy sandals</span></span></label></li>
+          <li><label><input type="checkbox" data-id="daypack"><span><span class="item-name">Small daypack</span></span></label></li>
+          <li><label><input type="checkbox" data-id="quickdry"><span><span class="item-name">Quick-dry clothes</span></span></label></li>
+        </ul>
+      </section>
+
+      <section class="cat">
+        <span class="tag">Family &amp; Health</span>
+        <ul>
+          <li><label><input type="checkbox" data-id="first-aid"><span><span class="item-name">First-aid kit</span></span></label></li>
+          <li><label><input type="checkbox" data-id="meds"><span><span class="item-name">Family medications</span><br><span class="item-note">Pain reliever, allergy, kids' meds</span></span></label></li>
+          <li><label><input type="checkbox" data-id="sanitizer"><span><span class="item-name">Hand sanitizer</span></span></label></li>
+          <li><label><input type="checkbox" data-id="ziplocks"><span><span class="item-name">Ziplock bags</span><br><span class="item-note">Wet swimsuits, snacks, trash</span></span></label></li>
+          <li><label><input type="checkbox" data-id="power-bank"><span><span class="item-name">Portable charger / power bank</span></span></label></li>
+        </ul>
+      </section>
+    </div>
+  </main>
+
+  <p class="foot">Tip: this checklist is the master copy. To add or change items for everyone, edit the page and republish. Checkmarks are saved per-device in your browser.</p>
+
+  <script>
+    const KEY = 'maui-shopping-list-v1';
+    const boxes = Array.from(document.querySelectorAll('input[type="checkbox"]'));
+    const bar = document.getElementById('bar');
+    const count = document.getElementById('count');
+
+    function load() {
+      let saved = {};
+      try { saved = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) {}
+      boxes.forEach(b => { b.checked = !!saved[b.dataset.id]; });
+    }
+    function save() {
+      const state = {};
+      boxes.forEach(b => { if (b.checked) state[b.dataset.id] = true; });
+      localStorage.setItem(KEY, JSON.stringify(state));
+    }
+    function refresh() {
+      const done = boxes.filter(b => b.checked).length;
+      bar.style.width = (boxes.length ? (done / boxes.length * 100) : 0) + '%';
+      count.textContent = done + ' / ' + boxes.length;
+      boxes.forEach(b => b.closest('li').classList.toggle('done', b.checked));
+    }
+    boxes.forEach(b => b.addEventListener('change', () => { save(); refresh(); }));
+    document.getElementById('reset').addEventListener('click', () => {
+      localStorage.removeItem(KEY); boxes.forEach(b => b.checked = false); refresh();
+    });
+    load(); refresh();
+  </script>
+</body>
+</html>

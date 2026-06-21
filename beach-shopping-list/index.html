@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Beach Gear Shopping List</title>
+  <style>
+    :root {
+      --bg: #f7f3ea;
+      --card: #fffdf8;
+      --ink: #23342f;
+      --muted: #65736d;
+      --green: #2f6b4f;
+      --green2: #79a87b;
+      --sand: #e8d5a5;
+      --blue: #2d7184;
+      --coral: #d86f45;
+      --shadow: 0 18px 45px rgba(24, 47, 39, .16);
+      --radius: 24px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: radial-gradient(circle at top left, #fff8dd, var(--bg) 35%, #e7f0ec 100%);
+      line-height: 1.5;
+    }
+    .hero {
+      min-height: 46vh; position: relative; display: grid; align-items: end;
+      padding: 32px; overflow: hidden;
+      background-image: linear-gradient(to bottom, rgba(0,0,0,.12), rgba(0,0,0,.66)),
+        url('https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Bridge_on_Hana_Highway.jpg/960px-Bridge_on_Hana_Highway.jpg');
+      background-size: cover; background-position: center;
+    }
+    .hero-content { max-width: 1050px; margin: 0 auto; color: white; width: 100%; }
+    .eyebrow {
+      display: inline-flex; gap: 8px; align-items: center;
+      background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.4);
+      backdrop-filter: blur(8px); border-radius: 999px; padding: 9px 14px;
+      font-weight: 700; letter-spacing: .02em; margin-bottom: 18px;
+    }
+    h1 { font-size: clamp(2.4rem, 6vw, 4.8rem); line-height: .92; margin: 0 0 14px; letter-spacing: -.05em; }
+    .hero p { max-width: 740px; font-size: clamp(1.02rem, 2vw, 1.3rem); color: rgba(255,255,255,.92); margin: 0; }
+    main { max-width: 1080px; margin: -46px auto 60px; position: relative; padding: 0 24px; }
+    .intro {
+      background: var(--card); box-shadow: var(--shadow); border-radius: var(--radius);
+      padding: 26px 28px; margin-bottom: 26px;
+    }
+    .intro h2 { margin: 0 0 8px; font-size: 1.5rem; letter-spacing: -.02em; }
+    .intro p { margin: 0; color: var(--muted); }
+    .progress { display: flex; align-items: center; gap: 14px; margin-top: 18px; }
+    .progress-track { flex: 1; height: 12px; background: #ede6d4; border-radius: 999px; overflow: hidden; }
+    .progress-bar { height: 100%; width: 0; background: linear-gradient(90deg, var(--green2), var(--green)); transition: width .3s ease; }
+    .progress-count { font-weight: 800; font-size: .9rem; white-space: nowrap; }
+
+    .card {
+      background: var(--card); box-shadow: var(--shadow); border-radius: var(--radius);
+      padding: 22px; margin-bottom: 24px;
+      display: grid; grid-template-columns: 420px 1fr; gap: 26px; align-items: start;
+    }
+    @media (max-width: 820px) { .card { grid-template-columns: 1fr; } }
+
+    .gallery .feature {
+      width: 100%; aspect-ratio: 4 / 3; object-fit: contain;
+      background: #fff; border-radius: 16px; border: 1px solid #eee4cf; padding: 10px;
+    }
+    .strip { display: flex; gap: 8px; margin-top: 8px; }
+    .thumb {
+      width: 100%; height: 64px; object-fit: contain; background: #fff;
+      border: 2px solid #eee4cf; border-radius: 10px; padding: 4px; cursor: pointer; transition: border-color .15s;
+    }
+    .thumb:hover, .thumb.active { border-color: var(--green); }
+
+    .body h2 { margin: 6px 0 10px; font-size: 1.55rem; letter-spacing: -.02em; }
+    .body p { margin: 0 0 12px; }
+    .tag {
+      display: inline-block; padding: 6px 12px; border-radius: 999px;
+      font-weight: 800; font-size: .74rem; text-transform: uppercase; letter-spacing: .06em;
+      background: var(--sand); color: #5a461d;
+    }
+    .tag.green { background: #d9ead9; color: #24533c; }
+    .tag.coral { background: #ffe1d1; color: #8f3517; }
+    .tag.blue { background: #d9ecf1; color: #1d5563; }
+    .tag.sun { background: #fff0c2; color: #806100; }
+    .cardhead { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .got { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; font-size: .85rem; color: var(--muted); cursor: pointer; white-space: nowrap; }
+    .got input { width: 20px; height: 20px; accent-color: var(--green); cursor: pointer; }
+    .card.done { opacity: .72; }
+    .card.done .body h2 { text-decoration: line-through; text-decoration-color: var(--green2); }
+
+    .tip {
+      background: #fff4e8; border: 1px solid rgba(216,111,69,.3); border-radius: 16px;
+      padding: 14px 16px; margin: 4px 0 14px; font-size: .95rem;
+    }
+    .tip strong { color: #8f3517; }
+    .btns { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
+    .btn {
+      display: inline-block; text-decoration: none; border-radius: 999px; padding: 11px 18px;
+      font-weight: 800; font-size: .95rem; background: var(--green); color: #fff;
+      box-shadow: 0 6px 18px rgba(47,107,79,.25);
+    }
+    .btn.alt { background: #fff; color: var(--ink); border: 2px solid #e6decb; box-shadow: none; }
+    .foot { max-width: 1080px; margin: 0 auto; padding: 0 24px 50px; color: var(--muted); font-size: .9rem; text-align: center; }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-content">
+      <span class="eyebrow">🏖️ Maui · Ka'anapali Beach Days</span>
+      <h1>Beach Gear Shopping List</h1>
+      <p>The stuff worth buying before we go so we can post up on Ka'anapali for several days in shade, comfort, and style — and skip the inflated resort-area prices.</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="intro">
+      <h2>Buy ahead, relax longer 🌴</h2>
+      <p>Since we're walking distance to Ka'anapali Beach and planning a lot of shore time with the family, grabbing these in advance saves money over "resort tax" at the ABC Store — and means we're set up for comfort from day one. Tap the photos to flip through each item, and check things off as we get them.</p>
+      <div class="progress">
+        <div class="progress-track"><div class="progress-bar" id="bar"></div></div>
+        <span class="progress-count" id="count">0 / 0</span>
+      </div>
+    </div>
+
+    <!-- Beach Tent -->
+    <section class="card" data-id="neso-tent">
+      <div class="gallery">
+        <img class="feature" src="https://m.media-amazon.com/images/I/91VsHTHrKUL.jpg" alt="Neso Grande beach tent">
+        <div class="strip">
+          <img class="thumb active" src="https://m.media-amazon.com/images/I/91VsHTHrKUL.jpg" alt="">
+          <img class="thumb" src="https://m.media-amazon.com/images/I/81Pcorb9szL.jpg" alt="">
+          <img class="thumb" src="https://m.media-amazon.com/images/I/51EFIt7jLpL.jpg" alt="">
+          <img class="thumb" src="https://m.media-amazon.com/images/I/51X3Oi5R5WL.jpg" alt="">
+        </div>
+      </div>
+      <div class="body">
+        <div class="cardhead">
+          <span class="tag coral">Shade · Must-have</span>
+          <label class="got"><input type="checkbox"> Got it</label>
+        </div>
+        <h2>Neso Grande Beach Tent</h2>
+        <p>An absolute game-changer for Hawaii — you will not regret it. Traditional beach umbrellas are a nightmare in Maui's strong afternoon trade winds; they turn into wind-borne spears. The Neso uses the wind to lift itself and anchors down with heavy sandbags, so it handles the breeze beautifully. Plus it packs down tiny into a suitcase — a massive win for travel.</p>
+        <div class="tip">
+          <strong>💡 Pro-tip for Maui:</strong> Trade winds blow hard on the West Side. Overfill the sandbags until they look like giant heavy basketballs, and pull the ropes as taut as humanly possible before putting the poles in. Also buy a cheap plastic <strong>sand scoop</strong> (a heavy-duty dog-food scoop or garden trowel) — filling four massive Neso bags by hand is exhausting.
+        </div>
+        <div class="btns"><a class="btn" href="https://www.amazon.com/dp/B09MY1QNSP" target="_blank" rel="noopener">View on Amazon →</a></div>
+      </div>
+    </section>
+
+    <!-- Beach Table -->
+    <section class="card" data-id="neso-table">
+      <div class="gallery">
+        <img class="feature" src="https://m.media-amazon.com/images/I/61GML2Gj+JL.jpg" alt="Neso beach table">
+        <div class="strip">
+          <img class="thumb active" src="https://m.media-amazon.com/images/I/61GML2Gj+JL.jpg" alt="">
+          <img class="thumb" src="https://m.media-amazon.com/images/I/61Riac+HPDL.jpg" alt="">
+          <img class="thumb" src="https://m.media-amazon.com/images/I/51tnw3sB7jL.jpg" alt="">
+          <img class="thumb" src="https://m.media-amazon.com/images/I/41j2nzSMaRL.jpg" alt="">
+        </div>
+      </div>
+      <div class="body">
+        <div class="cardhead">
+          <span class="tag coral">Pairs with the tent</span>
+          <label class="got"><input type="checkbox"> Got it</label>
+        </div>
+        <h2>Neso Beach Table &amp; Drink Holders</h2>
+        <p>The matching low table and drink holders made to go with the Neso. Keeps drinks, phones, and snacks up out of the sand instead of tipping over in it — a small thing that makes a multi-hour beach day far more relaxing.</p>
+        <div class="btns"><a class="btn" href="https://www.amazon.com/dp/B0CPL4DNQ1" target="_blank" rel="noopener">View on Amazon →</a></div>
+      </div>
+    </section>
+
+    <!-- Mesh Bag -->
+    <section class="card" data-id="mesh-bag">
+      <div class="gallery">
+        <img class="feature" src="https://m.media-amazon.com/images/I/81N6aZ4eXKL.jpg" alt="Giant mesh beach bag">
+        <div class="strip">
+          <img class="thumb active" src="https://m.media-amazon.com/images/I/81N6aZ4eXKL.jpg" alt="">
+          <img class="thumb" src="https://m.media-amazon.com/images/I/51iXK3LHX7L.jpg" alt="">
+          <img class="thumb" src="https://m.media-amazon.com/images/I/51HXIrUGUxL.jpg" alt="">
+          <img class="thumb" src="https://m.media-amazon.com/images/I/51uYoc13XeL.jpg" alt="">
+        </div>
+      </div>
+      <div class="body">
+        <div class="cardhead">
+          <span class="tag blue">Haul everything</span>
+          <label class="got"><input type="checkbox"> Got it</label>
+        </div>
+        <h2>Giant Mesh Beach / Gear Bag</h2>
+        <p>Don't try to haul snorkel gear, wet towels, and kid toys in a standard canvas tote — you'll bring half the beach's sand back into the room. A giant, heavy-duty mesh backpack lets the sand sift out naturally as you walk home, and wet gear can breathe and dry instead of getting moldy.</p>
+        <div class="btns"><a class="btn" href="https://www.amazon.com/dp/B0B2RHDSLR" target="_blank" rel="noopener">View on Amazon →</a></div>
+      </div>
+    </section>
+
+    <!-- Sunscreen -->
+    <section class="card" data-id="reef-sunscreen">
+      <div class="gallery">
+        <img class="feature" src="https://m.media-amazon.com/images/I/71Se0RvjuKL.jpg" alt="Reef-safe sunscreen">
+        <div class="strip">
+          <img class="thumb active" src="https://m.media-amazon.com/images/I/71Se0RvjuKL.jpg" alt="">
+          <img class="thumb" src="https://m.media-amazon.com/images/I/81Jh3likJjL.jpg" alt="">
+          <img class="thumb" src="https://m.media-amazon.com/images/I/51jRynijfWL.jpg" alt="">
+          <img class="thumb" src="https://m.media-amazon.com/images/I/51ple5xBHKL.jpg" alt="">
+        </div>
+      </div>
+      <div class="body">
+        <div class="cardhead">
+          <span class="tag sun">Required by law</span>
+          <label class="got"><input type="checkbox"> Got it</label>
+        </div>
+        <h2>Reef-Safe Sunscreen (check it carefully!)</h2>
+        <p>Hawaii has strict sunscreen laws to protect the coral reefs. Don't buy "reef-friendly" or "mineral-based" blindly — many brands use clever marketing but still contain banned chemicals. Look for <strong>Non-Nano Zinc Oxide</strong> or <strong>Titanium Dioxide</strong> as the <em>only</em> active ingredients. Brands like Kokua Sun Care, Raw Elements, or ThinkSport are excellent. Buying a couple of bottles ahead saves a ton vs. ABC Store prices.</p>
+        <div class="btns"><a class="btn" href="https://www.amazon.com/dp/B0B88X2FK4" target="_blank" rel="noopener">View on Amazon →</a></div>
+      </div>
+    </section>
+
+    <!-- Towels -->
+    <section class="card" data-id="microfiber-towels">
+      <div class="gallery">
+        <img class="feature" src="https://m.media-amazon.com/images/I/81U0TqF0ksL.jpg" alt="Compact microfiber beach towels">
+        <div class="strip">
+          <img class="thumb active" src="https://m.media-amazon.com/images/I/81U0TqF0ksL.jpg" alt="">
+          <img class="thumb" src="https://m.media-amazon.com/images/I/81gb-kcstLL.jpg" alt="">
+          <img class="thumb" src="https://m.media-amazon.com/images/I/71C3bfFqo9L.jpg" alt="">
+          <img class="thumb" src="https://m.media-amazon.com/images/I/61HHXRkRz6L.jpg" alt="">
+        </div>
+      </div>
+      <div class="body">
+        <div class="cardhead">
+          <span class="tag blue">Packs tiny</span>
+          <label class="got"><input type="checkbox"> Got it</label>
+        </div>
+        <h2>Compact Microfiber Beach Towels</h2>
+        <p>Resort towels are plush but bulky to carry to a different beach park, and they hold sand forever. Microfiber travel towels pack down to the size of a burrito, dry in minutes, and sand shakes right off. <em>(Search link — pick the colors/sizes you like.)</em></p>
+        <div class="btns"><a class="btn alt" href="https://www.amazon.com/s?k=Compact+Microfiber+Beach+Towels" target="_blank" rel="noopener">Browse options →</a></div>
+      </div>
+    </section>
+
+    <!-- Rash Guards -->
+    <section class="card" data-id="rash-guards">
+      <div class="gallery">
+        <img class="feature" src="https://m.media-amazon.com/images/I/71MLdnEQXYL.jpg" alt="Rash guards / UV shirts">
+        <div class="strip">
+          <img class="thumb active" src="https://m.media-amazon.com/images/I/71MLdnEQXYL.jpg" alt="">
+          <img class="thumb" src="https://m.media-amazon.com/images/I/71Z7dvisurL.jpg" alt="">
+          <img class="thumb" src="https://m.media-amazon.com/images/I/71Z0X2FDyhL.jpg" alt="">
+          <img class="thumb" src="https://m.media-amazon.com/images/I/71qpFzwkf3L.jpg" alt="">
+        </div>
+      </div>
+      <div class="body">
+        <div class="cardhead">
+          <span class="tag green">Sun protection</span>
+          <label class="got"><input type="checkbox"> Got it</label>
+        </div>
+        <h2>Rash Guards / UV Shirts for Everyone</h2>
+        <p>July sun in Hawaii is intense, and you'll spend hours floating on your stomach snorkeling — the backs of legs and shoulders burn fast. Long-sleeve UPF 50+ rash guards on the kids (and us) mean no reapplying sunscreen to backs every 80 minutes. <em>(Search link — grab sizes for the whole family.)</em></p>
+        <div class="btns"><a class="btn alt" href="https://www.amazon.com/s?k=Rash+Guards+UV+Shirts+family" target="_blank" rel="noopener">Browse options →</a></div>
+      </div>
+    </section>
+
+    <!-- Cooler -->
+    <section class="card" data-id="backpack-cooler">
+      <div class="gallery">
+        <img class="feature" src="https://icemule.com/cdn/shop/files/P-33L-RW_Open.jpg?v=1776445358&amp;width=1200" alt="Packable backpack cooler">
+        <div class="strip">
+          <img class="thumb active" src="https://icemule.com/cdn/shop/files/P-33L-RW_Open.jpg?v=1776445358&amp;width=1200" alt="">
+          <img class="thumb" src="https://icemule.com/cdn/shop/files/P-33L-Grey_Angle.jpg?v=1776445358&amp;width=1200" alt="">
+          <img class="thumb" src="https://static.rticoutdoors.com/cdn-cgi/image/format=auto,width=1000,height=1000,fit=contain/i/items/164014732.jpg" alt="">
+          <img class="thumb" src="https://static.rticoutdoors.com/cdn-cgi/image/format=auto,width=1000,height=1000,fit=contain/i/items/1161424223.jpg" alt="">
+        </div>
+      </div>
+      <div class="body">
+        <div class="cardhead">
+          <span class="tag green">Still deciding</span>
+          <label class="got"><input type="checkbox"> Got it</label>
+        </div>
+        <h2>Packable Backpack Cooler</h2>
+        <p>Since we're walking to the beach, hands-free is crucial. Packable soft-sided backpack coolers roll flat into luggage. Before hitting the sand, stop by Safeway in Lahaina or Foodland for ice, POG juice, local fruit, and snacks. <em>Still comparing two options:</em></p>
+        <div class="btns">
+          <a class="btn" href="https://icemule.com/products/pro-cooler-33l" target="_blank" rel="noopener">IceMule Pro 33L →</a>
+          <a class="btn alt" href="https://rticoutdoors.com/Ultra-Tough-Backpack-Cooler" target="_blank" rel="noopener">RTIC Backpack →</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <p class="foot">Prices and availability change — these links are starting points. To add or remove items for everyone, edit this page and re-pin it. "Got it" checkmarks save in your browser on this device.</p>
+
+  <script>
+    // Click a thumbnail to swap the feature image.
+    document.querySelectorAll('.card').forEach(card => {
+      const feature = card.querySelector('.feature');
+      card.querySelectorAll('.thumb').forEach(t => {
+        t.addEventListener('click', () => {
+          feature.src = t.src;
+          card.querySelectorAll('.thumb').forEach(x => x.classList.remove('active'));
+          t.classList.add('active');
+        });
+      });
+    });
+
+    // Persisted "Got it" checkboxes + progress bar.
+    const KEY = 'beach-shopping-list-v1';
+    const cards = Array.from(document.querySelectorAll('.card'));
+    const bar = document.getElementById('bar');
+    const count = document.getElementById('count');
+    let saved = {};
+    try { saved = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) {}
+
+    function refresh() {
+      let done = 0;
+      cards.forEach(c => {
+        const on = c.querySelector('input').checked;
+        c.classList.toggle('done', on);
+        if (on) done++;
+      });
+      bar.style.width = (cards.length ? done / cards.length * 100 : 0) + '%';
+      count.textContent = done + ' / ' + cards.length;
+    }
+    cards.forEach(c => {
+      const box = c.querySelector('input');
+      box.checked = !!saved[c.dataset.id];
+      box.addEventListener('change', () => {
+        saved[c.dataset.id] = box.checked;
+        localStorage.setItem(KEY, JSON.stringify(saved));
+        refresh();
+      });
+    });
+    refresh();
+  </script>
+</body>
+</html>

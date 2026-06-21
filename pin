@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
-# publish — drop an HTML file (or a folder containing index.html) onto GitHub Pages,
+# pin — drop an HTML file (or a folder containing index.html) onto GitHub Pages,
 # tag it, and refresh the bulletin-board index.
 #
 # Usage:
-#   publish <file.html> [slug] [--title "Nice Title"] [--tag "Maui Trip"] [--tag Hiking]
-#   publish <file.html> [slug] [--tags "Maui Trip,Hiking"]
-#   publish <folder>   [slug] ...     # folder must contain index.html (for pages with assets)
+#   pin <file.html> [slug] [--title "Nice Title"] [--tag "Maui Trip"] [--tag Hiking]
+#   pin <file.html> [slug] [--tags "Maui Trip,Hiking"]
+#   pin <folder>   [slug] ...     # folder must contain index.html (for pages with assets)
 #
 # Notes:
 #   - slug defaults to a cleaned version of the filename.
 #   - title defaults to the page's <title>, else the slug.
-#   - On republish, omit --tag/--tags to keep the existing tags.
+#   - On repin, omit --tag/--tags to keep the existing tags.
 #
 set -euo pipefail
 
@@ -30,7 +30,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 if [[ -z "$SRC" ]]; then
-  echo "Usage: publish <file.html | folder> [slug] [--title \"...\"] [--tag \"...\"]" >&2
+  echo "Usage: pin <file.html | folder> [slug] [--title \"...\"] [--tag \"...\"]" >&2
   exit 1
 fi
 if [[ ! -e "$SRC" ]]; then
@@ -44,7 +44,7 @@ if [[ -z "$SLUG" ]]; then
   SLUG="$(printf '%s' "$base" | tr '[:upper:]' '[:lower:]' | tr ' _' '--' | tr -cd 'a-z0-9-')"
 fi
 if [[ -z "$SLUG" ]]; then
-  echo "Error: could not derive a slug; pass one explicitly: publish <file> <slug>" >&2
+  echo "Error: could not derive a slug; pass one explicitly: pin <file> <slug>" >&2
   exit 1
 fi
 
@@ -76,12 +76,12 @@ git -C "$REPO_DIR" add -A
 if git -C "$REPO_DIR" diff --cached --quiet; then
   echo "No changes — '$SLUG' is already up to date."
 else
-  git -C "$REPO_DIR" commit --quiet -m "Publish $SLUG"
+  git -C "$REPO_DIR" commit --quiet -m "Pin $SLUG"
   git -C "$REPO_DIR" push --quiet origin main
 fi
 
 echo ""
-echo "✅ Published: https://$USER.github.io/microsites/$SLUG/"
+echo "✅ Pinned: https://$USER.github.io/microsites/$SLUG/"
 echo "   Title: $TITLE"
 echo "   Tags:  ${TAGS:-(unchanged)}"
 echo "   Board: https://$USER.github.io/microsites/"

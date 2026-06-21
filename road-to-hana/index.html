@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Road to Hana Family Day Options</title>
+  <style>
+    :root {
+      --bg: #f7f3ea;
+      --card: #fffdf8;
+      --ink: #23342f;
+      --muted: #65736d;
+      --green: #2f6b4f;
+      --green2: #79a87b;
+      --sand: #e8d5a5;
+      --blue: #2d7184;
+      --coral: #d86f45;
+      --shadow: 0 18px 45px rgba(24, 47, 39, .16);
+      --radius: 24px;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: radial-gradient(circle at top left, #fff8dd, var(--bg) 35%, #e7f0ec 100%);
+      line-height: 1.5;
+    }
+
+    .hero {
+      min-height: 72vh;
+      position: relative;
+      display: grid;
+      align-items: end;
+      padding: 32px;
+      overflow: hidden;
+      background-image: linear-gradient(to bottom, rgba(0,0,0,.1), rgba(0,0,0,.7)), url('https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Bridge_on_Hana_Highway.jpg/960px-Bridge_on_Hana_Highway.jpg');
+      background-size: cover;
+      background-position: center;
+    }
+
+    .hero-content {
+      max-width: 1050px;
+      margin: 0 auto;
+      color: white;
+      width: 100%;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      background: rgba(255,255,255,.18);
+      border: 1px solid rgba(255,255,255,.4);
+      backdrop-filter: blur(8px);
+      border-radius: 999px;
+      padding: 9px 14px;
+      font-weight: 700;
+      letter-spacing: .02em;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-size: clamp(2.6rem, 7vw, 6.3rem);
+      line-height: .9;
+      margin: 0 0 16px;
+      letter-spacing: -.06em;
+    }
+
+    .hero p {
+      max-width: 760px;
+      font-size: clamp(1.05rem, 2vw, 1.35rem);
+      color: rgba(255,255,255,.92);
+      margin: 0 0 28px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 26px;
+    }
+
+    .mini-card {
+      background: rgba(255,255,255,.16);
+      border: 1px solid rgba(255,255,255,.28);
+      backdrop-filter: blur(10px);
+      padding: 16px;
+      border-radius: 18px;
+    }
+    .mini-card strong { display: block; font-size: 1.05rem; }
+    .mini-card span { color: rgba(255,255,255,.82); font-size: .95rem; }
+
+    main {
+      max-width: 1180px;
+      margin: -46px auto 60px;
+      position: relative;
+      padding: 0 24px;
+    }
+
+    .intro {
+      background: var(--card);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+      padding: 28px;
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+
+    h2 { font-size: clamp(1.8rem, 3vw, 2.7rem); margin: 0 0 12px; letter-spacing: -.03em; }
+    h3 { font-size: 1.35rem; margin: 0 0 8px; }
+    p { margin-top: 0; }
+
+    .choice-summary {
+      display: grid;
+      gap: 12px;
+    }
+    .summary-card {
+      padding: 18px;
+      border-radius: 18px;
+      border: 2px solid rgba(47,107,79,.15);
+      background: #f8fbf7;
+    }
+    .summary-card.bigger { background: #fff4e8; border-color: rgba(216,111,69,.25); }
+    .tag {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: var(--sand);
+      color: #5a461d;
+      font-weight: 800;
+      font-size: .78rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      margin-bottom: 8px;
+    }
+    .tag.green { background: #d9ead9; color: #24533c; }
+    .tag.coral { background: #ffe1d1; color: #8f3517; }
+    .tag.blue { background: #d9ecf1; color: #1d5563; }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 28px 0 18px;
+    }
+    .tab-button {
+      border: 0;
+      padding: 15px 20px;
+      border-radius: 999px;
+      font-size: 1rem;
+      font-weight: 900;
+      cursor: pointer;
+      background: white;
+      color: var(--ink);
+      box-shadow: 0 6px 18px rgba(0,0,0,.08);
+    }
+    .tab-button.active {
+      background: var(--green);
+      color: white;
+    }
+
+    .panel {
+      display: none;
+      animation: fade .25s ease-in-out;
+    }
+    .panel.active { display: block; }
+    @keyframes fade { from { opacity: .3; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+    .option-header {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px;
+      margin-bottom: 22px;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 24px;
+      overflow: hidden;
+    }
+    .option-header img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 20px;
+    }
+
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    .stat {
+      background: #eef6f1;
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-weight: 800;
+      color: var(--green);
+    }
+
+    .timeline {
+      display: grid;
+      gap: 16px;
+    }
+    .stop {
+      background: var(--card);
+      border-radius: 22px;
+      box-shadow: 0 12px 26px rgba(24, 47, 39, .09);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 145px 190px 1fr;
+      border: 1px solid rgba(35,52,47,.08);
+    }
+    .stop-image {
+      min-height: 170px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+    .stop-image::after {
+      content: attr(data-label);
+      position: absolute;
+      left: 10px;
+      right: 10px;
+      bottom: 10px;
+      color: white;
+      font-weight: 950;
+      font-size: .78rem;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      background: rgba(0,0,0,.42);
+      border: 1px solid rgba(255,255,255,.32);
+      border-radius: 999px;
+      padding: 7px 9px;
+      text-align: center;
+      backdrop-filter: blur(6px);
+    }
+    .time {
+      background: linear-gradient(135deg, var(--green), var(--blue));
+      color: white;
+      padding: 18px;
+      font-weight: 950;
+      font-size: 1.15rem;
+      display: grid;
+      align-content: center;
+      text-align: center;
+    }
+    .stop-content { padding: 20px; }
+    .stop-content h3 { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .badges { display: flex; flex-wrap: wrap; gap: 7px; margin: 10px 0 0; }
+    .badge {
+      font-size: .78rem;
+      font-weight: 900;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: #f1ead8;
+      color: #60491f;
+    }
+    .badge.food { background: #ffe4ce; color: #8f3b16; }
+    .badge.social { background: #eadfff; color: #57368a; }
+    .badge.hike { background: #dcefdc; color: #265f37; }
+    .badge.photo { background: #d9ecf1; color: #1d5563; }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin: 28px 0;
+    }
+    .gallery figure {
+      margin: 0;
+      background: white;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 10px 24px rgba(0,0,0,.08);
+    }
+    .gallery img { width: 100%; height: 160px; object-fit: cover; display: block; }
+    figcaption { padding: 10px 12px; font-weight: 800; font-size: .9rem; }
+
+    .vote-box {
+      margin-top: 28px;
+      background: linear-gradient(135deg, #fff4dc, #e7f3eb);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+    .vote-box h2 { margin-bottom: 8px; }
+    .vote-options { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 18px; text-align: left; }
+    .vote-card { background: white; border-radius: 18px; padding: 18px; border: 2px solid rgba(47,107,79,.13); }
+    ul { margin-top: 8px; padding-left: 20px; }
+    li { margin-bottom: 6px; }
+
+    .note {
+      color: var(--muted);
+      font-size: .95rem;
+    }
+    .hype-box {
+      margin: 0 0 22px;
+      background: linear-gradient(135deg, #fff2df, #fffdf8 55%, #e8f4ef);
+      border: 2px solid rgba(216,111,69,.18);
+      border-radius: 22px;
+      padding: 22px;
+      box-shadow: 0 12px 30px rgba(24, 47, 39, .08);
+    }
+    .hype-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 14px; }
+    .hype-card { background: white; border-radius: 16px; padding: 15px; border: 1px solid rgba(35,52,47,.08); }
+    .hype-card img { width: 100%; height: 120px; object-fit: cover; border-radius: 11px; display: block; margin-bottom: 11px; }
+    .hype-card strong { display: block; margin-bottom: 5px; }
+    .food-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 12px; }
+    .food-pill { background: #fff7ec; border: 1px solid #f4d2b7; border-radius: 14px; padding: 10px; font-weight: 800; color: #7d391b; display: flex; gap: 12px; align-items: center; }
+    .food-pill img { width: 60px; height: 60px; border-radius: 11px; object-fit: cover; flex-shrink: 0; }
+
+    /* --- Decision helpers --- */
+    .decide { margin-top: 28px; }
+    .decide > .tag { margin-bottom: 6px; }
+    .decide h2 { margin-bottom: 6px; }
+    .decide .lead { color: var(--muted); max-width: 720px; margin-bottom: 18px; }
+
+    .compare {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      margin-bottom: 22px;
+    }
+    .compare table { width: 100%; border-collapse: collapse; }
+    .compare th, .compare td {
+      padding: 15px 16px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(35,52,47,.08);
+    }
+    .compare thead th { font-size: 1.05rem; }
+    .compare thead th:first-child { background: transparent; }
+    .compare thead .h1 { background: #eef6f1; color: var(--green); border-top-left-radius: 0; }
+    .compare thead .h2 { background: #fff4e8; color: #8f3517; }
+    .compare tbody th {
+      font-weight: 800;
+      color: var(--ink);
+      width: 30%;
+      background: #faf8f1;
+    }
+    .compare td .big { font-weight: 900; display: block; font-size: 1.02rem; }
+    .compare td .sub { color: var(--muted); font-size: .9rem; }
+    .compare tr:last-child th, .compare tr:last-child td { border-bottom: 0; }
+    .meter { font-size: 1.05rem; letter-spacing: 2px; }
+
+    .faceoff { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 22px; }
+    .face {
+      background: var(--card);
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: 0 12px 26px rgba(24,47,39,.09);
+      border: 2px solid rgba(47,107,79,.13);
+      display: flex;
+      flex-direction: column;
+    }
+    .face.coral { border-color: rgba(216,111,69,.22); }
+    .face img { width: 100%; height: 210px; object-fit: cover; display: block; }
+    .face .body { padding: 18px; }
+    .face .body h3 { margin: 6px 0 6px; }
+    .face .body p { margin: 0; color: var(--muted); }
+
+    .shared {
+      background: linear-gradient(135deg, #fff4dc, #e7f3eb);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 22px;
+      margin-bottom: 22px;
+    }
+    .shared h3 { margin: 0 0 4px; }
+    .shared .lead { color: var(--muted); margin-bottom: 16px; }
+    .shared-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .shared figure {
+      margin: 0; background: white; border-radius: 16px; overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0,0,0,.08);
+    }
+    .shared figure img { width: 100%; height: 140px; object-fit: cover; display: block; }
+    .shared figcaption { padding: 11px 13px; }
+    .shared figcaption strong { display: block; font-size: .98rem; }
+    .shared figcaption span { color: var(--muted); font-size: .85rem; }
+
+    @media (max-width: 850px) {
+      .faceoff, .shared-grid { grid-template-columns: 1fr; }
+      .compare thead { display: none; }
+      .compare table, .compare tbody, .compare tr, .compare th, .compare td { display: block; width: 100%; }
+      .compare tbody th { background: var(--green); color: white; }
+      .compare td { border-bottom: 0; padding-top: 8px; }
+      .compare td::before { content: attr(data-opt); display: block; font-weight: 900; color: var(--muted); font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+      .compare tr { border-bottom: 1px solid rgba(35,52,47,.12); padding-bottom: 8px; }
+      .hero { min-height: 62vh; padding: 22px; }
+      .hero-grid, .intro, .option-header, .vote-options { grid-template-columns: 1fr; }
+      main { margin-top: -28px; padding: 0 16px; }
+      .stop { grid-template-columns: 1fr; }
+      .time { text-align: left; }
+      .stop-image { min-height: 210px; }
+      .hype-grid, .food-list { grid-template-columns: 1fr; }
+      .gallery { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 520px) { .gallery { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <section class="hero">
+    <div class="hero-content">
+      <div class="eyebrow">🌺 Family vote, Road to Hana day from Honua Kai</div>
+      <h1>Two ways to do Hana</h1>
+      <p>We have a 3:00 PM reservation for Waiʻānapanapa Black Sand Beach, so the day can be either a relaxed greatest-hits adventure or a bigger hiking day with the famous bamboo forest.</p>
+      <div class="hero-grid">
+        <div class="mini-card"><strong>Start</strong><span>OUTRIGGER Honua Kai Resort & Spa, leave around 7:00 AM</span></div>
+        <div class="mini-card"><strong>Main event</strong><span>Waiʻānapanapa State Park, black sand beach, 3:00 PM reservation</span></div>
+        <div class="mini-card"><strong>Return</strong><span>Expect a late night, roughly 9:00 PM to 10:00 PM</span></div>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <section class="intro">
+      <div>
+        <h2>Choose your adventure</h2>
+        <p>The Road to Hana is not a normal drive. It is slow, curvy, rainforest-y, waterfall-y, snack-heavy, and very photogenic. Since we are starting from West Maui and our black sand beach reservation is at 3:00 PM, we need to pick one vibe for the day.</p>
+        <p><strong>Option 1</strong> gives us the best overall Road to Hana experience without pushing everyone too hard. <strong>Option 2</strong> is for the family that wants the iconic bamboo forest hike and does not mind a longer, more intense day.</p>
+      </div>
+      <div class="choice-summary">
+        <div class="summary-card">
+          <span class="tag green">Option 1</span>
+          <h3>Greatest Hits + Short Hikes</h3>
+          <p>Best balance of waterfalls, banana bread, black sand beach, views, and enough walking to feel adventurous.</p>
+        </div>
+        <div class="summary-card bigger">
+          <span class="tag coral">Option 2</span>
+          <h3>Bamboo Forest Big Hike</h3>
+          <p>The more epic hiking choice. Less stopping, more trail time, later return, bigger bragging rights.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="gallery" aria-label="Road to Hana photo preview">
+      <figure><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Bridge_on_Hana_Highway.jpg/960px-Bridge_on_Hana_Highway.jpg" alt="Road to Hana"><figcaption>Road to Hana views</figcaption></figure>
+      <figure><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Ke%27anae_Peninsula_Maui._%2811110792014%29.jpg/960px-Ke%27anae_Peninsula_Maui._%2811110792014%29.jpg" alt="Keanae Peninsula"><figcaption>Keʻanae Peninsula</figcaption></figure>
+      <figure><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Bamboo_forest_along_Pipiwai_Trail_%40_Kapahulu%2C_Hana%2C_Maui_-_panoramio.jpg/960px-Bamboo_forest_along_Pipiwai_Trail_%40_Kapahulu%2C_Hana%2C_Maui_-_panoramio.jpg" alt="Pipiwai Trail bamboo forest"><figcaption>Pipiwai Trail</figcaption></figure>
+      <figure><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Starr-110713-7130-Dryopteris_wallichiana-flagged_trail_through_rainforest-Koolau_Gap-Maui_%2825099144705%29.jpg/960px-Starr-110713-7130-Dryopteris_wallichiana-flagged_trail_through_rainforest-Koolau_Gap-Maui_%2825099144705%29.jpg" alt="Waikamoi forest trail"><figcaption>Rainforest walk</figcaption></figure>
+    </section>
+
+    <div class="tabs" role="tablist">
+      <button class="tab-button active" onclick="showPanel('option1', this)">Option 1, Greatest Hits</button>
+      <button class="tab-button" onclick="showPanel('option2', this)">Option 2, Big Hike</button>
+    </div>
+
+    <section id="option1" class="panel active">
+      <div class="option-header">
+        <div>
+          <span class="tag green">Best balanced choice</span>
+          <h2>Option 1, Greatest Hits + Short Hikes</h2>
+          <p>This is the best choice if we want everyone to have fun, get great photos, eat good Road to Hana snacks, see the black sand beach, and still make it home in one piece.</p>
+          <div class="stats">
+            <div class="stat">Leave 7:00 AM</div>
+            <div class="stat">Back around 9:00 PM</div>
+            <div class="stat">Short hikes</div>
+            <div class="stat">Good food stops</div>
+          </div>
+        </div>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Ke%27anae_Peninsula_Maui._%2811110792014%29.jpg/960px-Ke%27anae_Peninsula_Maui._%2811110792014%29.jpg" alt="Keanae Peninsula coastline" />
+      </div>
+
+      <div class="timeline">
+        <article class="stop"><div class="time">7:00 AM</div><div class="stop-image" style="background-image:url(https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Bridge_on_Hana_Highway.jpg/960px-Bridge_on_Hana_Highway.jpg)" data-label="West Maui start"></div><div class="stop-content"><h3>Leave Honua Kai</h3><p>Pack water, swimsuits, towels, chargers, snacks, and dry clothes. Eat something before leaving or grab coffee on the way.</p><div class="badges"><span class="badge">van day begins</span></div></div></article>
+        <article class="stop"><div class="time">8:20 AM</div><div class="stop-image" style="background-image:url(https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Surfer_at_Ho%27okipa_Beach%2C_Maui%2C_Hawaii.jpg/960px-Surfer_at_Ho%27okipa_Beach%2C_Maui%2C_Hawaii.jpg)" data-label="Surfers + turtles"></div><div class="stop-content"><h3>Hoʻokipa Beach Park</h3><p>Quick lookout stop for surfers, ocean views, and maybe turtles from a respectful distance. Easy first photo stop.</p><div class="badges"><span class="badge social">TikTok/IG ocean view</span><span class="badge photo">surf photos</span></div></div></article>
+        <article class="stop"><div class="time">9:00 AM</div><div class="stop-image" style="background-image:url(https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Haipua%27ena_Falls.jpg/960px-Haipua%27ena_Falls.jpg)" data-label="Waterfall warm-up"></div><div class="stop-content"><h3>Twin Falls</h3><p>Easy rainforest hike with waterfalls and possible swimming. This is a good warm-up stop and feels like the Road to Hana right away.</p><div class="badges"><span class="badge hike">short hike</span><span class="badge social">waterfall content</span></div></div></article>
+        <article class="stop"><div class="time">11:00 AM</div><div class="stop-image" style="background-image:url(https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Ke%27anae_Peninsula_Maui._%2811110792014%29.jpg/960px-Ke%27anae_Peninsula_Maui._%2811110792014%29.jpg)" data-label="Lava coast + banana bread"></div><div class="stop-content"><h3>Keʻanae Peninsula + Banana Bread</h3><p>One of the most dramatic coastal stops on the road. Lava rock, crashing waves, huge views, and banana bread if the stand is open.</p><div class="badges"><span class="badge food">banana bread</span><span class="badge photo">lava coastline</span><span class="badge social">very postable</span></div></div></article>
+        <article class="stop"><div class="time">12:00 PM</div><div class="stop-image" style="background-image:url(https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Starr-110713-7130-Dryopteris_wallichiana-flagged_trail_through_rainforest-Koolau_Gap-Maui_%2825099144705%29.jpg/960px-Starr-110713-7130-Dryopteris_wallichiana-flagged_trail_through_rainforest-Koolau_Gap-Maui_%2825099144705%29.jpg)" data-label="Rainforest walk"></div><div class="stop-content"><h3>Waikamoi Ridge Trail</h3><p>Short forest hike with giant trees, ferns, and Jurassic Park energy. This is the hidden-gem hiking stop.</p><div class="badges"><span class="badge hike">rainforest hike</span><span class="badge social">moody forest vibe</span></div></div></article>
+        <article class="stop"><div class="time">1:30 PM</div><div class="stop-image" style="background-image:url(https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Vanuatu_Tropical_Fruit_Platter.jpg/960px-Vanuatu_Tropical_Fruit_Platter.jpg)" data-label="Snack stop"></div><div class="stop-content"><h3>Light lunch or snack stop</h3><p>Keep it simple so we do not lose the 3:00 PM park window. Look for smoothies, fruit, coconut snacks, banana bread, or a quick roadside bite.</p><div class="badges"><span class="badge food">smoothies</span><span class="badge food">local snacks</span></div></div></article>
+        <article class="stop"><div class="time">3:00 PM</div><div class="stop-image" style="background-image:url(https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Waianapanapa_black_sand_beach_Maui_Hawaii_%2831869652128%29.jpg/960px-Waianapanapa_black_sand_beach_Maui_Hawaii_%2831869652128%29.jpg)" data-label="Black sand beach"></div><div class="stop-content"><h3>Waiʻānapanapa State Park</h3><p>The main event: black sand beach, lava rock, sea cave, sea arches, blowholes if conditions are right, and the coastal trail. This is the most viral-looking stop of the day.</p><div class="badges"><span class="badge social">black sand beach</span><span class="badge photo">sea cave</span><span class="badge hike">coastal walk</span></div></div></article>
+        <article class="stop"><div class="time">5:00 PM</div><div class="stop-image" style="background-image:url(https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Loco_Moco.jpg/960px-Loco_Moco.jpg)" data-label="Dinner reward"></div><div class="stop-content"><h3>Early dinner in Hana</h3><p>Eat before the long drive home. Food trucks, Hāna Farms area, plate lunch, fresh fruit, and local treats are the move.</p><div class="badges"><span class="badge food">food trucks</span><span class="badge food">local plate lunch</span><span class="badge food">Hāna Farms</span></div></div></article>
+        <article class="stop"><div class="time">6:00 PM</div><div class="stop-image" style="background-image:url(https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Bridge_on_Hana_Highway.jpg/960px-Bridge_on_Hana_Highway.jpg)" data-label="Night drive home"></div><div class="stop-content"><h3>Drive back to Honua Kai</h3><p>Expect a slow, dark return drive. This plan gives us the best chance of getting back around 9:00 PM.</p><div class="badges"><span class="badge">late but manageable</span></div></div></article>
+      </div>
+    </section>
+
+    <section id="option2" class="panel">
+      <div class="option-header">
+        <div>
+          <span class="tag coral">Most epic hiking choice</span>
+          <h2>Option 2, Bamboo Forest Big Hike</h2>
+          <p>This is the adventurous version. We skip some smaller stops so we can hike Pipiwai Trail, one of Maui’s most famous hikes, with the bamboo forest and Waimoku Falls.</p>
+          <div class="stats">
+            <div class="stat">Leave 6:30 to 7:00 AM</div>
+            <div class="stat">Back around 10:00 PM</div>
+            <div class="stat">4-mile hike</div>
+            <div class="stat">Maui's best-ranked hike</div>
+          </div>
+        </div>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Bamboo_forest_along_Pipiwai_Trail_%40_Kapahulu%2C_Hana%2C_Maui_-_panoramio.jpg/960px-Bamboo_forest_along_Pipiwai_Trail_%40_Kapahulu%2C_Hana%2C_Maui_-_panoramio.jpg" alt="Pipiwai Trail bamboo forest" />
+      </div>
+
+      <div class="hype-box">
+        <span class="tag coral">The secret favorite</span>
+        <h2>Why Option 2 is the spicy pick</h2>
+        <p>This is the version with the story everyone will actually remember: sunrise van energy, banana bread on the lava coast, a bamboo forest hike, black sand beach at golden hour, then a food-truck reward in Hāna before the long ride home.</p>
+        <div class="hype-grid">
+          <div class="hype-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Bamboo_forest_along_Pipiwai_Trail_%40_Kapahulu%2C_Hana%2C_Maui_-_panoramio.jpg/960px-Bamboo_forest_along_Pipiwai_Trail_%40_Kapahulu%2C_Hana%2C_Maui_-_panoramio.jpg" alt="Bamboo forest tunnel on the Pipiwai Trail" loading="lazy" /><strong>Most viral moment</strong>Bamboo forest tunnel photos on Pipiwai Trail.</div>
+          <div class="hype-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Banana_bread_loaf_on_a_plate.jpg/960px-Banana_bread_loaf_on_a_plate.jpg" alt="Slice of warm banana bread" loading="lazy" /><strong>Best snack flex</strong>Warm banana bread at Keʻanae before the big hike.</div>
+          <div class="hype-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Honokalani_Beach_%2848872198702%29.jpg/960px-Honokalani_Beach_%2848872198702%29.jpg" alt="Black sand beach and sea cave at Waianapanapa" loading="lazy" /><strong>Best finale</strong>Black sand beach and sea cave during the 3:00 PM reservation window.</div>
+        </div>
+        <div class="food-list">
+          <div class="food-pill"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Banana_bread_loaf_on_a_plate.jpg/960px-Banana_bread_loaf_on_a_plate.jpg" alt="Banana bread" loading="lazy" /><span>🍌 Aunty Sandy’s-style banana bread at Keʻanae, warm, sweet, and famous for a reason</span></div>
+          <div class="food-pill"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Coconut_Drink_Stall_KK.jpg/960px-Coconut_Drink_Stall_KK.jpg" alt="Fresh coconut drinks at a roadside stand" loading="lazy" /><span>🥥 Coconut candy, fresh fruit, smoothies, or cold drinks from roadside stands when open</span></div>
+          <div class="food-pill"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Margherita_pizza_on_plate.jpg/960px-Margherita_pizza_on_plate.jpg" alt="Wood-fired pizza" loading="lazy" /><span>🍕 Hāna Farms area for an easy dinner stop if timing lines up</span></div>
+          <div class="food-pill"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Loco_Moco.jpg/960px-Loco_Moco.jpg" alt="Hawaiian plate lunch" loading="lazy" /><span>🍤 Hāna food trucks or plate lunch, the post-hike reward that will make the ride home less grumpy</span></div>
+        </div>
+      </div>
+
+      <div class="timeline">
+        <article class="stop"><div class="time">6:30 AM</div><div class="stop-image" style="background-image:url(https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Bridge_on_Hana_Highway.jpg/960px-Bridge_on_Hana_Highway.jpg)" data-label="Early adventure start"></div><div class="stop-content"><h3>Leave Honua Kai</h3><p>This version needs a slightly earlier start, but it gives the day main-character energy. Bring hiking shoes, extra water, snacks, and dry clothes.</p><div class="badges"><span class="badge hike">bigger hiking day</span></div></div></article>
+        <article class="stop"><div class="time">8:00 AM</div><div class="stop-image" style="background-image:url(https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Surfer_at_Ho%27okipa_Beach%2C_Maui%2C_Hawaii.jpg/960px-Surfer_at_Ho%27okipa_Beach%2C_Maui%2C_Hawaii.jpg)" data-label="Quick surf lookout"></div><div class="stop-content"><h3>Hoʻokipa Beach Park</h3><p>Quick look at the surfers and ocean. Keep it fast because the hike is the priority.</p><div class="badges"><span class="badge social">quick IG stop</span><span class="badge photo">surf lookout</span></div></div></article>
+        <article class="stop"><div class="time">10:00 AM</div><div class="stop-image" style="background-image:url(https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Ke%27anae_Peninsula_Maui._%2811110792014%29.jpg/960px-Ke%27anae_Peninsula_Maui._%2811110792014%29.jpg)" data-label="Banana bread power-up"></div><div class="stop-content"><h3>Keʻanae Peninsula + Banana Bread</h3><p>Still worth stopping, and this is the snack stop that sells the whole plan. Big coastal views, crashing waves, and warm banana bread before the long push to the bamboo forest.</p><div class="badges"><span class="badge food">banana bread</span><span class="badge photo">lava coastline</span></div></div></article>
+        <article class="stop"><div class="time">12:00 PM</div><div class="stop-image" style="background-image:url(https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Bamboo_forest_along_Pipiwai_Trail_%40_Kapahulu%2C_Hana%2C_Maui_-_panoramio.jpg/960px-Bamboo_forest_along_Pipiwai_Trail_%40_Kapahulu%2C_Hana%2C_Maui_-_panoramio.jpg)" data-label="Bamboo forest hike"></div><div class="stop-content"><h3>Pipiwai Trail</h3><p>The big adventure, and widely ranked Maui's best hike. About 4 miles round trip, with a giant banyan tree, the famous bamboo forest tunnel, and Waimoku Falls. This is the bragging-rights hike and probably the most TikTok-worthy part of the day.</p><div class="badges"><span class="badge hike">Maui's #1 hike</span><span class="badge hike">4-mile hike</span><span class="badge social">bamboo forest</span><span class="badge photo">Waimoku Falls</span></div></div></article>
+        <article class="stop"><div class="time">2:30 PM</div><div class="stop-image" style="background-image:url(https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Bridge_on_Hana_Highway.jpg/960px-Bridge_on_Hana_Highway.jpg)" data-label="The sprint to black sand"></div><div class="stop-content"><h3>Drive to Waiʻānapanapa</h3><p>Leave the hike with enough time to make the 3:00 PM black sand beach reservation. No lingering here.</p><div class="badges"><span class="badge">time-sensitive</span></div></div></article>
+        <article class="stop"><div class="time">3:00 PM</div><div class="stop-image" style="background-image:url(https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Waianapanapa_black_sand_beach_Maui_Hawaii_%2831869652128%29.jpg/960px-Waianapanapa_black_sand_beach_Maui_Hawaii_%2831869652128%29.jpg)" data-label="Black sand beach"></div><div class="stop-content"><h3>Waiʻānapanapa State Park</h3><p>Black sand beach, lava coastline, sea cave, and coastal trail. This is the social-media centerpiece after the hike.</p><div class="badges"><span class="badge social">black sand beach</span><span class="badge photo">sea cave</span><span class="badge hike">coastal walk</span></div></div></article>
+        <article class="stop"><div class="time">5:00 PM</div><div class="stop-image" style="background-image:url(https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Loco_Moco.jpg/960px-Loco_Moco.jpg)" data-label="Food truck finish"></div><div class="stop-content"><h3>Dinner in Hana</h3><p>Everyone will be hungry, which is perfect because dinner becomes the reward. Think food trucks, Hāna Farms if timing works, plate lunch, cold drinks, fruit, sweets, and anything coconut or banana that we can find.</p><div class="badges"><span class="badge food">food trucks</span><span class="badge food">cold drinks</span><span class="badge food">local treats</span></div></div></article>
+        <article class="stop"><div class="time">6:00 PM</div><div class="stop-image" style="background-image:url(https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Bridge_on_Hana_Highway.jpg/960px-Bridge_on_Hana_Highway.jpg)" data-label="Night drive home"></div><div class="stop-content"><h3>Drive back to Honua Kai</h3><p>This is the long-haul ending. Expect a late return, probably closer to 10:00 PM depending on pace and traffic.</p><div class="badges"><span class="badge">epic but long</span></div></div></article>
+      </div>
+    </section>
+
+    <section class="decide">
+      <span class="tag blue">Quick compare</span>
+      <h2>The two days, side by side</h2>
+      <p class="lead">Same black sand beach reservation, two totally different vibes. Here is the honest version so you know what you are voting for.</p>
+
+      <div class="compare">
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th class="h1">🌿 Option 1<br>Greatest Hits</th>
+              <th class="h2">🎋 Option 2<br>Big Hike</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>Wake-up</th>
+              <td data-opt="Option 1"><span class="big">7:00 AM</span><span class="sub">Sleep in a little</span></td>
+              <td data-opt="Option 2"><span class="big">6:30 AM</span><span class="sub">Earlier alarm</span></td>
+            </tr>
+            <tr>
+              <th>Home by</th>
+              <td data-opt="Option 1"><span class="big">~9:00 PM</span><span class="sub">Late, but okay</span></td>
+              <td data-opt="Option 2"><span class="big">~10:00 PM</span><span class="sub">A long, late night</span></td>
+            </tr>
+            <tr>
+              <th>Walking</th>
+              <td data-opt="Option 1"><span class="big">Short, easy hikes</span><span class="sub">A few quick trails, lots of stops</span></td>
+              <td data-opt="Option 2"><span class="big">One 4-mile hike</span><span class="sub">The big bamboo forest trail</span></td>
+            </tr>
+            <tr>
+              <th>Star of the day</th>
+              <td data-opt="Option 1"><span class="big">A bit of everything</span><span class="sub">Waterfall, beach, snacks, views</span></td>
+              <td data-opt="Option 2"><span class="big">Bamboo forest tunnel</span><span class="sub">Maui's best-ranked hike + a 400-ft waterfall</span></td>
+            </tr>
+            <tr>
+              <th>Number of stops</th>
+              <td data-opt="Option 1"><span class="big">More (7+)</span><span class="sub">Always something new</span></td>
+              <td data-opt="Option 2"><span class="big">Fewer</span><span class="sub">Save energy for the hike</span></td>
+            </tr>
+            <tr>
+              <th>How tired you'll be</th>
+              <td data-opt="Option 1"><span class="meter">😌😴</span><span class="sub">Pleasantly worn out</span></td>
+              <td data-opt="Option 2"><span class="meter">😴😴😴😴</span><span class="sub">Earned-it exhausted</span></td>
+            </tr>
+            <tr>
+              <th>Pick this if you want</th>
+              <td data-opt="Option 1"><span class="big">Fun + variety</span><span class="sub">The easygoing greatest-hits day</span></td>
+              <td data-opt="Option 2"><span class="big">Adventure + bragging rights</span><span class="sub">The one big epic story</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <span class="tag">Feature face-off</span>
+      <h2 style="margin-top:4px;">What makes each one special</h2>
+      <div class="faceoff">
+        <div class="face">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Haipua%27ena_Falls.jpg/960px-Haipua%27ena_Falls.jpg" alt="Rainforest waterfall with a swimming pool on the Road to Hana" loading="lazy" />
+          <div class="body">
+            <span class="tag green">Option 1's magic</span>
+            <h3>Waterfalls, forests, and snacks</h3>
+            <p>Splash near rainforest waterfalls, walk easy jungle trails, and hit more food stops. Lower effort, more variety, great photos all day.</p>
+          </div>
+        </div>
+        <div class="face coral">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Bamboo_forest_along_Pipiwai_Trail_%40_Kapahulu%2C_Hana%2C_Maui_-_panoramio.jpg/960px-Bamboo_forest_along_Pipiwai_Trail_%40_Kapahulu%2C_Hana%2C_Maui_-_panoramio.jpg" alt="Tall bamboo forest tunnel along the Pipiwai Trail" loading="lazy" />
+          <div class="body">
+            <span class="tag coral">⭐ Often called Maui's best hike</span>
+            <h3>The bamboo forest tunnel</h3>
+            <p>Pipiwai Trail is widely ranked the best hike on the whole island. You climb through a towering bamboo tunnel, past a giant banyan tree, to Waimoku Falls, a 400-foot waterfall. The most epic, most postable moment of the trip.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="shared">
+        <span class="tag">No matter what you pick</span>
+        <h3>You still get all of this</h3>
+        <p class="lead">These are in both plans, so nobody loses out on the big stuff.</p>
+        <div class="shared-grid">
+          <figure>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Waianapanapa_black_sand_beach_Maui_Hawaii_%2831869652128%29.jpg/960px-Waianapanapa_black_sand_beach_Maui_Hawaii_%2831869652128%29.jpg" alt="Black sand beach at Waianapanapa State Park" loading="lazy" />
+            <figcaption><strong>Black sand beach</strong><span>The 3:00 PM reservation stop</span></figcaption>
+          </figure>
+          <figure>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Banana_bread_loaf_on_a_plate.jpg/960px-Banana_bread_loaf_on_a_plate.jpg" alt="Slice of warm banana bread on a plate" loading="lazy" />
+            <figcaption><strong>Warm banana bread</strong><span>At the Keʻanae lava coast</span></figcaption>
+          </figure>
+          <figure>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Honokalani_Beach_%2848872198702%29.jpg/960px-Honokalani_Beach_%2848872198702%29.jpg" alt="Sea cave and lava coastline at Honokalani Beach" loading="lazy" />
+            <figcaption><strong>Sea cave + lava coast</strong><span>Tide pools and ocean arches</span></figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="vote-box">
+      <h2>So, what should we choose?</h2>
+      <p>Vote based on what sounds more fun, not what sounds more impressive.</p>
+      <div class="vote-options">
+        <div class="vote-card">
+          <span class="tag green">Pick Option 1 if</span>
+          <ul>
+            <li>You want waterfalls, black sand beach, banana bread, and rainforest without being destroyed.</li>
+            <li>You want more stops and more variety.</li>
+            <li>You want the best food and photo balance.</li>
+          </ul>
+        </div>
+        <div class="vote-card">
+          <span class="tag coral">Pick Option 2 if</span>
+          <ul>
+            <li>You really want the bamboo forest hike.</li>
+            <li>You are okay with fewer stops and a later night.</li>
+            <li>You want the most adventurous version of the day.</li>
+          </ul>
+        </div>
+      </div>
+      <p class="note">Reminder: Waiʻānapanapa is the required reservation stop at 3:00 PM. Everything else should work around that.</p>
+    </section>
+  </main>
+
+  <script>
+    function showPanel(id, button) {
+      document.querySelectorAll('.panel').forEach(panel => panel.classList.remove('active'));
+      document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      button.classList.add('active');
+      window.scrollTo({ top: document.querySelector('.tabs').offsetTop - 12, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>

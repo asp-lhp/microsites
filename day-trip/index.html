@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day Trip — Couples Day on Maui</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    :root {
+      --bg: #f7f3ea; --card: #fffdf8; --ink: #23342f; --muted: #65736d;
+      --green: #2f6b4f; --green2: #79a87b; --sand: #e8d5a5; --blue: #2d7184; --coral: #d86f45;
+      --shadow: 0 18px 45px rgba(24, 47, 39, .16); --radius: 24px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink); background: radial-gradient(circle at top left, #fff8dd, var(--bg) 35%, #e7f0ec 100%); line-height: 1.5;
+    }
+    .hero {
+      min-height: 50vh; position: relative; display: grid; align-items: end; padding: 32px; overflow: hidden;
+      background-image: linear-gradient(to bottom, rgba(0,0,0,.12), rgba(0,0,0,.7)),
+        url('https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Iao_Valley_State_Park_Maui._%2811248131064%29.jpg/1920px-Iao_Valley_State_Park_Maui._%2811248131064%29.jpg');
+      background-size: cover; background-position: center;
+    }
+    .hero-content { max-width: 1050px; margin: 0 auto; color: white; width: 100%; }
+    .eyebrow {
+      display: inline-flex; gap: 8px; align-items: center; background: rgba(255,255,255,.18);
+      border: 1px solid rgba(255,255,255,.4); backdrop-filter: blur(8px); border-radius: 999px;
+      padding: 9px 14px; font-weight: 700; letter-spacing: .02em; margin-bottom: 18px;
+    }
+    h1 { font-size: clamp(2.4rem, 6vw, 5rem); line-height: .92; margin: 0 0 14px; letter-spacing: -.05em; }
+    .hero p { max-width: 760px; font-size: clamp(1.02rem, 2vw, 1.32rem); color: rgba(255,255,255,.92); margin: 0; }
+    main { max-width: 1080px; margin: 26px auto 60px; position: relative; padding: 0 24px; }
+    .intro, .map-card { background: var(--card); box-shadow: var(--shadow); border-radius: var(--radius); padding: 26px 28px; margin-bottom: 26px; }
+    .intro h2, .map-card h2 { margin: 0 0 10px; font-size: 1.6rem; letter-spacing: -.02em; }
+    .intro p, .map-card p { margin: 0 0 12px; color: var(--muted); }
+    .tip { background: #fbeaf0; border: 1px solid rgba(212,83,126,.3); border-radius: 16px; padding: 14px 16px; margin: 8px 0 0; font-size: .95rem; color: #4b1528; }
+    .tip strong { color: #99355 6; }
+
+    .opt-head { margin: 34px 0 14px; }
+    .opt-head .pill {
+      display: inline-block; padding: 6px 14px; border-radius: 999px; font-weight: 800; font-size: .8rem;
+      text-transform: uppercase; letter-spacing: .05em; color: #fff;
+    }
+    .opt-head.o1 .pill { background: var(--green); }
+    .opt-head.o2 .pill { background: var(--coral); }
+    .opt-head.o3 .pill { background: var(--blue); }
+    .opt-head h2 { margin: 10px 0 4px; font-size: 1.7rem; letter-spacing: -.03em; }
+    .opt-head p { margin: 0; color: var(--muted); }
+
+    .card { background: var(--card); box-shadow: var(--shadow); border-radius: var(--radius); padding: 22px; margin-bottom: 22px;
+      display: grid; grid-template-columns: 420px 1fr; gap: 26px; align-items: start; }
+    @media (max-width: 820px) { .card { grid-template-columns: 1fr; } }
+    .gallery .feature { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: #fff; border-radius: 16px; border: 1px solid #eee4cf; }
+    .strip { display: flex; gap: 8px; margin-top: 8px; }
+    .thumb { width: 100%; height: 64px; object-fit: cover; background: #fff; border: 2px solid #eee4cf; border-radius: 10px; cursor: pointer; transition: border-color .15s; }
+    .thumb:hover, .thumb.active { border-color: var(--green); }
+    .body h2 { margin: 8px 0 10px; font-size: 1.5rem; letter-spacing: -.02em; }
+    .body p { margin: 0 0 12px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .badge { display: inline-block; padding: 5px 11px; border-radius: 999px; font-weight: 800; font-size: .74rem; letter-spacing: .03em; }
+    .badge.time { background: var(--sand); color: #5a461d; }
+    .badge.drive { background: #eef3ef; color: #2f6b4f; }
+    .badge.drive.o2 { background: #ffe1d1; color: #8f3517; }
+    .badge.drive.o3 { background: #d9ecf1; color: #1d5563; }
+    .btns { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
+    .btn { display: inline-block; text-decoration: none; border-radius: 999px; padding: 11px 18px; font-weight: 800; font-size: .92rem; background: var(--green); color: #fff; box-shadow: 0 6px 18px rgba(47,107,79,.22); }
+    .btn.alt { background: #fff; color: var(--ink); border: 2px solid #e6decb; box-shadow: none; }
+    #map { height: 440px; width: 100%; border-radius: 16px; overflow: hidden; border: 1px solid #eee4cf; z-index: 0; }
+    .legend { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 14px; font-size: .9rem; color: var(--muted); }
+    .legend span { display: inline-flex; align-items: center; gap: 7px; }
+    .dot { width: 13px; height: 13px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 0 1px rgba(0,0,0,.15); }
+    .foot { max-width: 1080px; margin: 0 auto; padding: 0 24px 50px; color: var(--muted); font-size: .9rem; text-align: center; }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-content">
+      <span class="eyebrow">💞 Couples Day · Friday, July 10</span>
+      <h1>Day Trip</h1>
+      <p>A romantic, adult-focused window between checkout and checking into the Westin — three relaxed ways to spend it, all within about an hour's drive.</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="intro">
+      <h2>The perfect in-between day 🌺</h2>
+      <p>With checkout behind you and Westin check-in ahead, Friday is wide open for a couples-only adventure — no rushing, no crowds. Below are three distinct itineraries: a luxe upcountry garden + distillery tour, a private catamaran straight off Kaʻanapali, or a lush valley + jungle escape. Distances on the map are measured by car from the Westin, Kaʻanapali.</p>
+      <div class="tip"><strong>💖 Pro-tip for the in-between day:</strong> Pack a separate "day-use bag" with a change of nice clothes, walking shoes, and wallets, and keep it in the front of the trunk. Leave the heavy suitcases with the Westin's bell desk before you officially check in — so you're not driving the island with your whole life in the back of the car.</div>
+    </div>
+
+    <div class="map-card">
+      <h2>Where it all is 🗺️</h2>
+      <p>Everything below, mapped from the Westin in Kaʻanapali. Tap any point for its drive time.</p>
+      <div id="map"></div>
+      <div class="legend">
+        <span><span class="dot" style="background:#b3261e"></span> The Westin (Kaʻanapali)</span>
+        <span><span class="dot" style="background:#2f6b4f"></span> Option 1 · Upcountry</span>
+        <span><span class="dot" style="background:#d86f45"></span> Option 2 · Catamaran</span>
+        <span><span class="dot" style="background:#2d7184"></span> Option 3 · Valley &amp; jungle</span>
+      </div>
+    </div>
+
+    <!-- OPTION 1 -->
+    <div class="opt-head o1">
+      <span class="pill">Option 1 · Modern Luxe Upcountry</span>
+      <h2>Botanical garden + high-end distillery</h2>
+      <p>Sleep in, then drive about an hour up into the crisp, cool slopes of Haleakalā for a gorgeous mid-morning.</p>
+    </div>
+
+    <section class="card">
+      <div class="gallery">
+        <img class="feature" src="https://img1.wsimg.com/isteam/ip/baacb886-4464-4f63-aaf2-5cd6db1cf2b8/IMG_6236.jpeg/:/rs=w:662,h:392,cg:true,m/cr=w:662,h:392/qt=q:95" alt="Kula Botanical Garden">
+        <div class="strip">
+          <img class="thumb active" src="https://img1.wsimg.com/isteam/ip/baacb886-4464-4f63-aaf2-5cd6db1cf2b8/IMG_6236.jpeg/:/rs=w:662,h:392,cg:true,m/cr=w:662,h:392/qt=q:95" alt="">
+          <img class="thumb" src="https://img1.wsimg.com/isteam/ip/baacb886-4464-4f63-aaf2-5cd6db1cf2b8/1000023747.jpg/:/cr=t:15.47%25,l:15.77%25,w:71.36%25,h:71.36%25/rs=w:1968,h:2624" alt="">
+          <img class="thumb" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Enchanting_Floral_Gardens_of_Kula%2C_Maui.jpg/1920px-Enchanting_Floral_Gardens_of_Kula%2C_Maui.jpg" alt="">
+        </div>
+      </div>
+      <div class="body">
+        <div class="meta"><span class="badge time">10:00 AM</span><span class="badge drive">⏱ ~1 hr from the Westin</span></div>
+        <h2>Kula Botanical Garden</h2>
+        <p>A breathtaking, multi-acre garden woven through rolling green hills, rock formations, waterfalls, and koi ponds. Massive ancient trees and unique tropical flora that feel a world away from the beach — quiet, peaceful, and perfect for walking hand-in-hand.</p>
+        <div class="btns">
+          <a class="btn" href="https://kbgmaui.com/" target="_blank" rel="noopener">Website →</a>
+          <a class="btn alt" href="https://www.google.com/maps/search/?api=1&query=Kula+Botanical+Garden+Maui" target="_blank" rel="noopener">Open in Maps →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="gallery">
+        <img class="feature" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Starr-170520-0704-Metrosideros_polymorpha-view_noth_slope_Haleakala_almost_sunset-Road_to_Lower_Kula_Pipeline_Haiku_Uka-Maui_%2835063936662%29.jpg/1920px-Starr-170520-0704-Metrosideros_polymorpha-view_noth_slope_Haleakala_almost_sunset-Road_to_Lower_Kula_Pipeline_Haiku_Uka-Maui_%2835063936662%29.jpg" alt="Upcountry Kula views">
+        <div class="strip">
+          <img class="thumb active" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Starr-170520-0704-Metrosideros_polymorpha-view_noth_slope_Haleakala_almost_sunset-Road_to_Lower_Kula_Pipeline_Haiku_Uka-Maui_%2835063936662%29.jpg/1920px-Starr-170520-0704-Metrosideros_polymorpha-view_noth_slope_Haleakala_almost_sunset-Road_to_Lower_Kula_Pipeline_Haiku_Uka-Maui_%2835063936662%29.jpg" alt="">
+          <img class="thumb" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Starr-100303-3172-paragliders-Waipoli_Rd-Kula-Maui_%2824643674709%29.jpg/1920px-Starr-100303-3172-paragliders-Waipoli_Rd-Kula-Maui_%2824643674709%29.jpg" alt="">
+          <img class="thumb" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Kula_Lavender_Farm.jpg/1920px-Kula_Lavender_Farm.jpg" alt="">
+        </div>
+      </div>
+      <div class="body">
+        <div class="meta"><span class="badge time">12:00 PM</span><span class="badge drive">⏱ ~5 min from the garden</span></div>
+        <h2>Lunch &amp; tasting at Ocean Vodka Organic Farm</h2>
+        <p>A stunning 80-acre property just minutes away in Kula with sweeping, panoramic views of both Maui coastlines. Grab a gourmet, fresh lunch at the open-air café, walk through the organic sugar-cane fields, and do a spirit tasting — that farm-to-table vibe on a relaxed timeline.</p>
+        <div class="tip" style="background:#eef3ef;border-color:rgba(47,107,79,.25);color:#24533c"><strong>📷 Note:</strong> Photos here show the upcountry Kula setting — rolling Haleakalā slopes and farm country around Ocean Vodka.</div>
+        <div class="btns">
+          <a class="btn alt" href="https://www.google.com/maps/search/?api=1&query=Ocean+Vodka+Organic+Farm+Kula+Maui" target="_blank" rel="noopener">Open in Maps →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- OPTION 2 -->
+    <div class="opt-head o2">
+      <span class="pill">Option 2 · Private "Doorstep" Charter</span>
+      <h2>Private catamaran — no drive time</h2>
+      <p>Skip the car entirely and use the fact that you're staying right on Kaʻanapali.</p>
+    </div>
+
+    <section class="card">
+      <div class="gallery">
+        <img class="feature" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Starr-180129-0925-Cocos_nucifera-catamaran_picking_up_snorkelers_from_beach-Kaanapali_Beach_Walk-Maui_%2838497458770%29.jpg/1920px-Starr-180129-0925-Cocos_nucifera-catamaran_picking_up_snorkelers_from_beach-Kaanapali_Beach_Walk-Maui_%2838497458770%29.jpg" alt="Catamaran off Kaanapali Beach">
+        <div class="strip">
+          <img class="thumb active" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Starr-180129-0925-Cocos_nucifera-catamaran_picking_up_snorkelers_from_beach-Kaanapali_Beach_Walk-Maui_%2838497458770%29.jpg/1920px-Starr-180129-0925-Cocos_nucifera-catamaran_picking_up_snorkelers_from_beach-Kaanapali_Beach_Walk-Maui_%2838497458770%29.jpg" alt="">
+          <img class="thumb" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Starr-180421-0991-Leucaena_leucocephala-panoram_view_bay_and_catamarans_with_snorkelers-Honolua_Lipoa_Point-Maui_%2843411261592%29.jpg/1920px-Starr-180421-0991-Leucaena_leucocephala-panoram_view_bay_and_catamarans_with_snorkelers-Honolua_Lipoa_Point-Maui_%2843411261592%29.jpg" alt="">
+          <img class="thumb" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Starr-180421-0992-Leucaena_leucocephala-panoram_view_bay_and_catamarans_with_snorkelers-Honolua_Lipoa_Point-Maui_%2843459611401%29.jpg/1920px-Starr-180421-0992-Leucaena_leucocephala-panoram_view_bay_and_catamarans_with_snorkelers-Honolua_Lipoa_Point-Maui_%2843459611401%29.jpg" alt="">
+        </div>
+      </div>
+      <div class="body">
+        <div class="meta"><span class="badge time">Midday · 3–4 hrs</span><span class="badge drive o2">⏱ Walk to the beach — no drive</span></div>
+        <h2>Private catamaran or yacht charter</h2>
+        <p>Book a private catamaran or luxury motor yacht that departs right from the sand of Kaʻanapali — steps from where you're staying. A 3-to-4-hour private midday charter can take just the two of you across the channel to the dramatic sea cliffs of Lānaʻi or a tucked-away West Maui cove, with a captain and crew catering to you: high-end food, cocktails, and private snorkeling away from the crowds. You're back on the beach right in time for resort check-in.</p>
+        <div class="tip" style="background:#ffe1d1;border-color:rgba(216,111,69,.3);color:#8f3517"><strong>⛵ Operators to check:</strong> Sea Maui, Gemini, or Kaʻanapali Ocean Adventures all run beach-departure charters.</div>
+        <div class="btns">
+          <a class="btn" style="background:var(--coral)" href="https://seamaui.com/" target="_blank" rel="noopener">Sea Maui →</a>
+          <a class="btn alt" href="https://www.google.com/maps/search/?api=1&query=Kaanapali+Beach+Maui" target="_blank" rel="noopener">Open in Maps →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- OPTION 3 -->
+    <div class="opt-head o3">
+      <span class="pill">Option 3 · Lush Valley &amp; Deep Jungle</span>
+      <h2>Towering green peaks + a tropical plantation lunch</h2>
+      <p>About a 40-minute drive toward Central/West Maui for dramatic mountains and true jungle.</p>
+    </div>
+
+    <section class="card">
+      <div class="gallery">
+        <img class="feature" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Iao_Stream_Iao_Valley_State_Park_Maui_2021.jpg/1920px-Iao_Stream_Iao_Valley_State_Park_Maui_2021.jpg" alt="Iao Valley">
+        <div class="strip">
+          <img class="thumb active" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Iao_Stream_Iao_Valley_State_Park_Maui_2021.jpg/1920px-Iao_Stream_Iao_Valley_State_Park_Maui_2021.jpg" alt="">
+          <img class="thumb" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Iao_Needle%2C_Wailuku%2C_Maui%2C_Hawaii%2C_October_4%2C_2006.jpg/1920px-Iao_Needle%2C_Wailuku%2C_Maui%2C_Hawaii%2C_October_4%2C_2006.jpg" alt="">
+          <img class="thumb" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Iao_Valley_State_Park_Maui._%2811248131064%29.jpg/1920px-Iao_Valley_State_Park_Maui._%2811248131064%29.jpg" alt="">
+        </div>
+      </div>
+      <div class="body">
+        <div class="meta"><span class="badge time">9:30 AM</span><span class="badge drive o3">⏱ ~40 min from the Westin</span></div>
+        <h2>ʻĪao Valley State Monument</h2>
+        <p>Drive into the dramatic, emerald-green peaks of Central Maui. The towering, carpeted volcanic needle is iconic — a short, romantic stroll along a rushing river surrounded by massive rainforest plants.</p>
+        <div class="tip" style="background:#d9ecf1;border-color:rgba(45,113,132,.3);color:#1d5563"><strong>🅿️ Heads up:</strong> You must book a parking/entry reservation online in advance for ʻĪao Valley.</div>
+        <div class="btns">
+          <a class="btn" style="background:var(--blue)" href="https://gowaystateparks.hawaii.gov/" target="_blank" rel="noopener">Reservations →</a>
+          <a class="btn alt" href="https://www.google.com/maps/search/?api=1&query=Iao+Valley+State+Monument" target="_blank" rel="noopener">Open in Maps →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="gallery">
+        <img class="feature" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Yellow_Hibiscus_brackenridgei_flower.jpg/1920px-Yellow_Hibiscus_brackenridgei_flower.jpg" alt="Native Hawaiian plants">
+        <div class="strip">
+          <img class="thumb active" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Yellow_Hibiscus_brackenridgei_flower.jpg/1920px-Yellow_Hibiscus_brackenridgei_flower.jpg" alt="">
+          <img class="thumb" src="https://upload.wikimedia.org/wikipedia/commons/4/48/Loulu_Palm_%284438363269%29.jpg" alt="">
+          <img class="thumb" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Pritchardia_remota_%285249705317%29.jpg/1920px-Pritchardia_remota_%285249705317%29.jpg" alt="">
+        </div>
+      </div>
+      <div class="body">
+        <div class="meta"><span class="badge time">11:00 AM</span><span class="badge drive o3">⏱ ~45 min from the Westin</span></div>
+        <h2>Maui Nui Botanical Gardens</h2>
+        <p>Nearby in Kahului, Maui Nui focuses specifically on native Hawaiian and Polynesian plants — a quiet, living collection you won't see anywhere else. A peaceful, shaded stroll before lunch.</p>
+        <div class="tip" style="background:#d9ecf1;border-color:rgba(45,113,132,.3);color:#1d5563"><strong>📷 Note:</strong> Photos show native Hawaiian flora (yellow hibiscus — the state flower — and loulu palms) of the kind featured here.</div>
+        <div class="btns">
+          <a class="btn" style="background:var(--blue)" href="https://mnbg.org/" target="_blank" rel="noopener">Website →</a>
+          <a class="btn alt" href="https://www.google.com/maps/search/?api=1&query=Maui+Nui+Botanical+Gardens" target="_blank" rel="noopener">Open in Maps →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="gallery">
+        <img class="feature" src="https://images.squarespace-cdn.com/content/v1/5168702ce4b0e454d76f1835/1588264865250-TMANWHFSFB2P0NUCB6Q9/taro-sunset_v2.jpeg?format=2500w" alt="Maui Tropical Plantation">
+        <div class="strip">
+          <img class="thumb active" src="https://images.squarespace-cdn.com/content/v1/5168702ce4b0e454d76f1835/1588264865250-TMANWHFSFB2P0NUCB6Q9/taro-sunset_v2.jpeg?format=2500w" alt="">
+          <img class="thumb" src="https://images.squarespace-cdn.com/content/v1/5168702ce4b0e454d76f1835/1588189982167-3QYXAAGFB9Q120ODE9AS/MauiTropicalPlantation.jpg?format=2500w" alt="">
+          <img class="thumb" src="https://images.squarespace-cdn.com/content/v1/5168702ce4b0e454d76f1835/1588193122631-JQLE868WXMZHI5UIQGTU/BF1A9081+2.jpg?format=2500w" alt="">
+        </div>
+      </div>
+      <div class="body">
+        <div class="meta"><span class="badge time">Lunch</span><span class="badge drive o3">⏱ ~38 min from the Westin</span></div>
+        <h2>Maui Tropical Plantation &amp; The Mill House</h2>
+        <p>Hop over to the neighboring Maui Tropical Plantation in Waikapu for a beautiful lunch at The Mill House — dining right on the edge of a lagoon, looking up at the West Maui Mountains. A gorgeous, relaxed finish before heading back to check in.</p>
+        <div class="btns">
+          <a class="btn" style="background:var(--blue)" href="https://mauitropicalplantation.com/" target="_blank" rel="noopener">Website →</a>
+          <a class="btn alt" href="https://www.google.com/maps/search/?api=1&query=Maui+Tropical+Plantation+Waikapu" target="_blank" rel="noopener">Open in Maps →</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <p class="foot">Drive times are approximate, by car from the Westin in Kaʻanapali. Location photos are representative; reservations and hours change, so confirm before you go.</p>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    document.querySelectorAll('.card').forEach(card => {
+      const feature = card.querySelector('.feature');
+      if (!feature) return;
+      card.querySelectorAll('.thumb').forEach(t => t.addEventListener('click', () => {
+        feature.src = t.src;
+        card.querySelectorAll('.thumb').forEach(x => x.classList.remove('active'));
+        t.classList.add('active');
+      }));
+    });
+
+    const WESTIN = [20.9270, -156.6935];
+    const SPOTS = [
+      { n: "Kula Botanical Garden", ll: [20.7556, -156.3342], d: "~1 hr drive (33 mi)", c: "#2f6b4f" },
+      { n: "Ocean Vodka Organic Farm", ll: [20.7449, -156.3373], d: "~1 hr drive (32 mi)", c: "#2f6b4f" },
+      { n: "Private catamaran · Kaʻanapali Beach", ll: [20.9235, -156.6985], d: "Walk to the beach — no drive", c: "#d86f45" },
+      { n: "ʻĪao Valley State Monument", ll: [20.8809, -156.5460], d: "~40 min drive (23 mi)", c: "#2d7184" },
+      { n: "Maui Nui Botanical Gardens", ll: [20.8896, -156.4731], d: "~45 min drive (25 mi)", c: "#2d7184" },
+      { n: "Maui Tropical Plantation", ll: [20.8519, -156.5012], d: "~38 min drive (21 mi)", c: "#2d7184" }
+    ];
+
+    const map = L.map('map', { scrollWheelZoom: false });
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18, attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    const pts = [WESTIN];
+    L.circleMarker(WESTIN, { radius: 10, color: '#fff', weight: 3, fillColor: '#b3261e', fillOpacity: 1 })
+      .addTo(map).bindPopup('<b>The Westin</b><br>Kaʻanapali — your home base')
+      .bindTooltip('The Westin', { permanent: true, direction: 'top', offset: [0, -8] });
+
+    SPOTS.forEach(s => {
+      pts.push(s.ll);
+      L.polyline([WESTIN, s.ll], { color: s.c, weight: 2, dashArray: '5,6', opacity: .65 }).addTo(map);
+      L.circleMarker(s.ll, { radius: 7, color: '#fff', weight: 2, fillColor: s.c, fillOpacity: 1 })
+        .addTo(map).bindPopup('<b>' + s.n + '</b><br>' + s.d);
+    });
+
+    map.fitBounds(L.latLngBounds(pts).pad(0.12));
+  </script>
+</body>
+</html>

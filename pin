@@ -62,6 +62,9 @@ else
   cp "$SRC" "$DEST/index.html"
 fi
 
+# Inject a floating "All pages" link back to the bulletin board.
+python3 "$REPO_DIR/_backlink.py" "$DEST/index.html"
+
 # Default the title to the page's <title>, then to the slug.
 if [[ -z "$TITLE" ]]; then
   TITLE="$(grep -o -i '<title>[^<]*</title>' "$DEST/index.html" | head -1 | sed -E 's/<[^>]*>//g' | sed -E 's/^[[:space:]]+|[[:space:]]+$//g')"

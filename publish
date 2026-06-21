@@ -1,21 +1,36 @@
 #!/usr/bin/env bash
-# publish — drop an HTML file (or a folder containing index.html) onto GitHub Pages.
+# publish — drop an HTML file (or a folder containing index.html) onto GitHub Pages,
+# tag it, and refresh the bulletin-board index.
 #
 # Usage:
-#   publish <file.html>            # publishes as https://asp-lhp.github.io/microsites/<slug>/
-#   publish <file.html> <slug>     # override the URL slug
-#   publish <folder>               # folder must contain index.html (use this when you have images/assets)
+#   publish <file.html> [slug] [--title "Nice Title"] [--tag "Maui Trip"] [--tag Hiking]
+#   publish <file.html> [slug] [--tags "Maui Trip,Hiking"]
+#   publish <folder>   [slug] ...     # folder must contain index.html (for pages with assets)
+#
+# Notes:
+#   - slug defaults to a cleaned version of the filename.
+#   - title defaults to the page's <title>, else the slug.
+#   - On republish, omit --tag/--tags to keep the existing tags.
 #
 set -euo pipefail
 
 USER="asp-lhp"
 REPO_DIR="$HOME/microsites"
 
-SRC="${1:-}"
-SLUG="${2:-}"
+SRC=""; SLUG=""; TITLE=""; TAGS=""
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --title) TITLE="${2:-}"; shift 2;;
+    --tags)  TAGS="${2:-}"; shift 2;;
+    --tag)   TAGS="${TAGS:+$TAGS,}${2:-}"; shift 2;;
+    -h|--help) sed -n '2,18p' "$0"; exit 0;;
+    -*) echo "Unknown option: $1" >&2; exit 1;;
+    *)  if [[ -z "$SRC" ]]; then SRC="$1"; elif [[ -z "$SLUG" ]]; then SLUG="$1"; fi; shift;;
+  esac
+done
 
 if [[ -z "$SRC" ]]; then
-  echo "Usage: publish <file.html | folder> [slug]" >&2
+  echo "Usage: publish <file.html | folder> [slug] [--title \"...\"] [--tag \"...\"]" >&2
   exit 1
 fi
 if [[ ! -e "$SRC" ]]; then
@@ -25,8 +40,7 @@ fi
 
 # Derive a clean URL slug from the filename if one wasn't given.
 if [[ -z "$SLUG" ]]; then
-  base="$(basename "$SRC")"
-  base="${base%.*}"  # strip extension
+  base="$(basename "$SRC")"; base="${base%.*}"
   SLUG="$(printf '%s' "$base" | tr '[:upper:]' '[:lower:]' | tr ' _' '--' | tr -cd 'a-z0-9-')"
 fi
 if [[ -z "$SLUG" ]]; then
@@ -36,21 +50,27 @@ fi
 
 DEST="$REPO_DIR/$SLUG"
 
-# Make sure local repo is current, then replace the target page.
 git -C "$REPO_DIR" pull --quiet --no-rebase origin main 2>/dev/null || true
-rm -rf "$DEST"
-mkdir -p "$DEST"
+rm -rf "$DEST"; mkdir -p "$DEST"
 
 if [[ -d "$SRC" ]]; then
   cp -R "$SRC"/. "$DEST"/
   if [[ ! -f "$DEST/index.html" ]]; then
-    echo "Error: folder '$SRC' has no index.html." >&2
-    rm -rf "$DEST"
-    exit 1
+    echo "Error: folder '$SRC' has no index.html." >&2; rm -rf "$DEST"; exit 1
   fi
 else
   cp "$SRC" "$DEST/index.html"
 fi
+
+# Default the title to the page's <title>, then to the slug.
+if [[ -z "$TITLE" ]]; then
+  TITLE="$(grep -o -i '<title>[^<]*</title>' "$DEST/index.html" | head -1 | sed -E 's/<[^>]*>//g' | sed -E 's/^[[:space:]]+|[[:space:]]+$//g')"
+  [[ -z "$TITLE" ]] && TITLE="$SLUG"
+fi
+
+# Update metadata + regenerate the bulletin board.
+python3 "$REPO_DIR/_upsert.py" "$SLUG" "$TITLE" "$TAGS"
+python3 "$REPO_DIR/build-index.py" >/dev/null
 
 git -C "$REPO_DIR" add -A
 if git -C "$REPO_DIR" diff --cached --quiet; then
@@ -60,7 +80,8 @@ else
   git -C "$REPO_DIR" push --quiet origin main
 fi
 
-URL="https://$USER.github.io/microsites/$SLUG/"
 echo ""
-echo "✅ Published: $URL"
-echo "   (A brand-new page can take 1–2 minutes to go live the first time.)"
+echo "✅ Published: https://$USER.github.io/microsites/$SLUG/"
+echo "   Title: $TITLE"
+echo "   Tags:  ${TAGS:-(unchanged)}"
+echo "   Board: https://$USER.github.io/microsites/"

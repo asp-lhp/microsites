@@ -1,4 +1,71 @@
-<!doctype html>
+#!/usr/bin/env python3
+"""Regenerate index.html from sites.json as a 90's corkboard / bulletin board.
+
+Pages are grouped by tag. A page with multiple tags is pinned under each.
+Run automatically by the `publish` script; safe to run by hand too.
+"""
+import html
+import json
+import datetime
+import pathlib
+
+REPO = pathlib.Path(__file__).resolve().parent
+sites = []
+sp = REPO / "sites.json"
+if sp.exists():
+    sites = json.loads(sp.read_text())
+
+# Group by tag (a page can appear under several tags).
+by_tag = {}
+for s in sites:
+    for t in (s.get("tags") or ["Untagged"]):
+        by_tag.setdefault(t, []).append(s)
+for t in by_tag:
+    by_tag[t].sort(key=lambda s: s["title"].lower())
+ordered_tags = sorted(by_tag.keys(), key=str.lower)
+
+NOTE_COLORS = ["#fff89a", "#ffd6e8", "#c7f5c0", "#bfe3ff", "#ffd8a8", "#e3d0ff"]
+PIN_COLORS = ["#e74c3c", "#2d7bd4", "#27ae60", "#e67e22", "#8e44ad"]
+
+updated = datetime.date.today().strftime("%B&nbsp;%d,&nbsp;%Y")
+total = len(sites)
+
+NOTE_TPL = """
+        <a class="note" href="{slug}/" style="--note:{color}; --pin:{pin}; transform: rotate({rot}deg);">
+          <span class="pin"></span>
+          <span class="note-title">{title}</span>
+          <span class="note-path">/{slug}/</span>
+        </a>"""
+
+SECTION_TPL = """
+      <section class="board-section">
+        <h2 class="tag-label">{label}</h2>
+        <div class="notes">{notes}</div>
+      </section>"""
+
+ci = 0
+sections_html = ""
+for t in ordered_tags:
+    notes_html = ""
+    for s in by_tag[t]:
+        color = NOTE_COLORS[ci % len(NOTE_COLORS)]
+        pin = PIN_COLORS[ci % len(PIN_COLORS)]
+        rot = (ci * 41 % 7) - 3  # deterministic tilt in [-3, 3]
+        ci += 1
+        notes_html += NOTE_TPL.format(
+            slug=html.escape(s["slug"], quote=True),
+            color=color, pin=pin, rot=rot,
+            title=html.escape(s["title"]),
+        )
+    sections_html += SECTION_TPL.format(label=html.escape(t), notes=notes_html)
+
+if not sites:
+    sections_html = (
+        '\n      <section class="board-section"><p class="empty">'
+        'No pages pinned yet. Publish one to see it here!</p></section>'
+    )
+
+HEAD = """<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -65,7 +132,7 @@
     box-shadow: 4px 4px 0 rgba(0,0,0,.4); transform: rotate(-1deg);
     text-transform: uppercase;
   }
-  .tag-label::before { content: "\1F4CC  "; }
+  .tag-label::before { content: "\\1F4CC  "; }
   .notes { display: flex; flex-wrap: wrap; gap: 22px; }
   .note {
     position: relative; display: flex; flex-direction: column; justify-content: center;
@@ -103,20 +170,17 @@
   <div class="frame">
     <div class="banner"><h1>Andre's Microsites</h1></div>
     <div class="marquee"><span>&#9733;&#9733;&#9733; Welcome to my corner of the web &mdash; pin it, share it, surf on! &#9733;&#9733;&#9733;</span></div>
+"""
 
-      <section class="board-section">
-        <h2 class="tag-label">Maui Trip</h2>
-        <div class="notes">
-        <a class="note" href="road-to-hana/" style="--note:#fff89a; --pin:#e74c3c; transform: rotate(-3deg);">
-          <span class="pin"></span>
-          <span class="note-title">Road to Hana — Family Day Options</span>
-          <span class="note-path">/road-to-hana/</span>
-        </a></div>
-      </section>
+FOOT = """
     <div class="footer">
-      <p>You are visitor <span class="counter">000042</span> &middot; Pages pinned: <strong>1</strong> &middot; Last updated June&nbsp;20,&nbsp;2026</p>
+      <p>You are visitor <span class="counter">000042</span> &middot; Pages pinned: <strong>{total}</strong> &middot; Last updated {updated}</p>
       <p><span class="blink">&#128679; Under Construction &#128679;</span> &middot; Best viewed in Netscape Navigator 4.0 at 800&times;600</p>
     </div>
   </div>
 </body>
 </html>
+""".format(total=total, updated=updated)
+
+(REPO / "index.html").write_text(HEAD + sections_html + FOOT)
+print(f"Rebuilt index.html with {total} page(s) across {len(ordered_tags)} tag(s).")

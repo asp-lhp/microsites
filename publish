@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+# publish — drop an HTML file (or a folder containing index.html) onto GitHub Pages.
+#
+# Usage:
+#   publish <file.html>            # publishes as https://asp-lhp.github.io/microsites/<slug>/
+#   publish <file.html> <slug>     # override the URL slug
+#   publish <folder>               # folder must contain index.html (use this when you have images/assets)
+#
+set -euo pipefail
+
+USER="asp-lhp"
+REPO_DIR="$HOME/microsites"
+
+SRC="${1:-}"
+SLUG="${2:-}"
+
+if [[ -z "$SRC" ]]; then
+  echo "Usage: publish <file.html | folder> [slug]" >&2
+  exit 1
+fi
+if [[ ! -e "$SRC" ]]; then
+  echo "Error: '$SRC' not found." >&2
+  exit 1
+fi
+
+# Derive a clean URL slug from the filename if one wasn't given.
+if [[ -z "$SLUG" ]]; then
+  base="$(basename "$SRC")"
+  base="${base%.*}"  # strip extension
+  SLUG="$(printf '%s' "$base" | tr '[:upper:]' '[:lower:]' | tr ' _' '--' | tr -cd 'a-z0-9-')"
+fi
+if [[ -z "$SLUG" ]]; then
+  echo "Error: could not derive a slug; pass one explicitly: publish <file> <slug>" >&2
+  exit 1
+fi
+
+DEST="$REPO_DIR/$SLUG"
+
+# Make sure local repo is current, then replace the target page.
+git -C "$REPO_DIR" pull --quiet --no-rebase origin main 2>/dev/null || true
+rm -rf "$DEST"
+mkdir -p "$DEST"
+
+if [[ -d "$SRC" ]]; then
+  cp -R "$SRC"/. "$DEST"/
+  if [[ ! -f "$DEST/index.html" ]]; then
+    echo "Error: folder '$SRC' has no index.html." >&2
+    rm -rf "$DEST"
+    exit 1
+  fi
+else
+  cp "$SRC" "$DEST/index.html"
+fi
+
+git -C "$REPO_DIR" add -A
+if git -C "$REPO_DIR" diff --cached --quiet; then
+  echo "No changes — '$SLUG' is already up to date."
+else
+  git -C "$REPO_DIR" commit --quiet -m "Publish $SLUG"
+  git -C "$REPO_DIR" push --quiet origin main
+fi
+
+URL="https://$USER.github.io/microsites/$SLUG/"
+echo ""
+echo "✅ Published: $URL"
+echo "   (A brand-new page can take 1–2 minutes to go live the first time.)"

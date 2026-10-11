@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Olivia — College &amp; Scholarship Plan, fall 2027</title>
+<style>
+:root{
+  --paper:#F7F6F2; --ink:#182230; --slate:#55657A; --line:#D9DDE3; --panel:#FFFFFF;
+  --t1:#2E7D5B; --t2:#C9870A; --t3:#8A5A2B; --over:#9A9A9A;
+  --accent:#1F4E79; --accent-soft:#E6EEF6;
+  --max:1120px;
+  font-size:17px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:4.5rem}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;line-height:1.55}
+h1,h2,h3,h4{font-family:"Avenir Next","Segoe UI",system-ui,-apple-system,Helvetica,Arial,sans-serif;line-height:1.15;margin:0 0 .5rem;letter-spacing:-.01em}
+h1{font-size:clamp(2rem,4.5vw,3.4rem);font-weight:700}
+h2{font-size:1.8rem;font-weight:700;margin-top:0}
+h3{font-size:1.2rem;font-weight:700;margin-top:2rem}
+p{margin:.4rem 0 1rem;max-width:72ch}
+a{color:var(--accent);text-decoration-thickness:1px;text-underline-offset:2px}
+a:hover{text-decoration-thickness:2px}
+:focus-visible{outline:3px solid var(--t2);outline-offset:2px}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 1.25rem}
+header.top{position:sticky;top:0;z-index:5;background:rgba(247,246,242,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;gap:1.25rem;align-items:center;min-height:3.5rem;overflow-x:auto}
+header.top strong{font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;white-space:nowrap;margin-right:auto}
+header.top nav{display:flex;gap:1rem;font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;font-size:.9rem;white-space:nowrap}
+header.top nav a{color:var(--slate);text-decoration:none}
+header.top nav a:hover{color:var(--ink)}
+.hero{padding:3.5rem 0 2rem}
+.hero .lede{font-size:1.2rem;max-width:62ch;color:var(--ink)}
+.hero .meta{font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;font-size:.9rem;color:var(--slate);max-width:none}
+.urgent{border-left:6px solid var(--t2);background:#FFF7E3;padding:1rem 1.25rem;margin:1.5rem 0;max-width:72ch}
+.urgent h3{margin:0 0 .3rem}
+.urgent p{margin:0}
+section{padding:2.5rem 0;border-top:1px solid var(--line)}
+section > .wrap > p:first-of-type{font-size:1.05rem}
+table{width:100%;border-collapse:collapse;font-size:.92rem;margin:1rem 0 1.5rem;background:var(--panel)}
+th,td{text-align:left;vertical-align:top;padding:.65rem .7rem;border-bottom:1px solid var(--line)}
+th{font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;font-size:.8rem;color:var(--slate);font-weight:600;background:#F0F1EE}
+tbody tr:hover{background:#FBFBF9}
+td b{font-weight:700}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.scroll table{min-width:760px}
+.tag{display:inline-block;font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;font-size:.72rem;font-weight:700;padding:.1rem .45rem;border-radius:3px;color:#fff;vertical-align:middle}
+.tag.t1{background:var(--t1)} .tag.t2{background:var(--t2)} .tag.t3{background:var(--t3)} .tag.over{background:var(--over)}
+.tag.fit{background:var(--accent-soft);color:var(--accent)}
+/* cost ledger */
+.ledger{background:var(--panel);border:1px solid var(--line);padding:1.25rem 1.25rem .75rem;margin:1.25rem 0 2rem}
+.ledger .scale{position:relative;height:1.6rem;margin-left:230px;font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;font-size:.72rem;color:var(--slate)}
+.ledger .scale span{position:absolute;top:0;transform:translateX(-50%)}
+.row{display:grid;grid-template-columns:230px 1fr;align-items:center;gap:.5rem;min-height:2.3rem;border-top:1px dashed var(--line)}
+.row .name{font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;font-size:.86rem;font-weight:600;padding:.3rem 0;line-height:1.2}
+.row .name small{display:block;font-weight:400;color:var(--slate);font-size:.75rem}
+.track{position:relative;height:1.5rem;background:
+  linear-gradient(90deg,transparent calc(22.2% - 1px),var(--line) calc(22.2% - 1px),var(--line) 22.2%,transparent 22.2%),
+  linear-gradient(90deg,transparent calc(44.4% - 1px),var(--line) calc(44.4% - 1px),var(--line) 44.4%,transparent 44.4%),
+  linear-gradient(90deg,transparent calc(66.7% - 1px),var(--line) calc(66.7% - 1px),var(--line) 66.7%,transparent 66.7%)}
+.bar{position:absolute;left:0;top:.2rem;height:1.1rem;border-radius:0 2px 2px 0}
+.bar.t1{background:var(--t1)} .bar.t2{background:var(--t2)} .bar.t3{background:var(--t3)} .bar.over{background:var(--over)}
+.bar.full{opacity:.35;top:.2rem;height:1.1rem}
+.val{position:absolute;top:0;line-height:1.5rem;font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;font-size:.78rem;font-weight:700;padding-left:.4rem;white-space:nowrap}
+.legend{font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;font-size:.78rem;color:var(--slate);margin:.75rem 0 0;display:flex;gap:1.25rem;flex-wrap:wrap}
+.legend i{display:inline-block;width:.9rem;height:.6rem;margin-right:.3rem;vertical-align:middle}
+@media (max-width:700px){.row{grid-template-columns:1fr}.ledger .scale{margin-left:0}.track{margin-bottom:.4rem}}
+/* checklist */
+.check{list-style:none;padding:0;margin:0 0 1.25rem;max-width:72ch}
+.check li{display:grid;grid-template-columns:1.4rem 1fr;gap:.6rem;padding:.4rem 0;border-bottom:1px dashed var(--line);align-items:start}
+.check input{width:1.1rem;height:1.1rem;margin-top:.25rem;accent-color:var(--accent)}
+.check li.done{color:var(--slate);text-decoration:line-through}
+.note{font-size:.9rem;color:var(--slate);max-width:72ch}
+blockquote{margin:1rem 0;padding:1rem 1.25rem;background:var(--panel);border:1px solid var(--line);font-size:.95rem;max-width:72ch}
+dl{display:grid;grid-template-columns:max-content 1fr;gap:.35rem 1rem;max-width:80ch;font-size:.95rem}
+dt{font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;font-weight:600;color:var(--slate)}
+dd{margin:0}
+footer{padding:2rem 0 4rem;color:var(--slate);font-size:.85rem;border-top:1px solid var(--line)}
+@media print{header.top{position:static}section{break-inside:auto}tr{break-inside:avoid}}
+</style>
+</head>
+<body>
+
+<header class="top"><div class="wrap">
+  <strong>Olivia · fall 2027</strong>
+  <nav aria-label="Sections">
+    <a href="../" data-board-link>All pages</a>
+    <a href="#deadlines">Deadlines</a><a href="#colleges">Colleges</a><a href="#scholarships">Scholarships</a><a href="#programs">Programs</a><a href="#unverified">Unverified</a><a href="#plan">30-day plan</a><a href="#gap">Gap year</a>
+  </nav>
+</div></header>
+
+<main>
+<div class="hero"><div class="wrap">
+  <h1>College &amp; scholarship plan</h1>
+  <p class="lede">Merged from three research passes run October 11, 2026. Two community-college routes are Tier 1; NAU is Tier 2 only if its core-GPA calculation reaches 3.50; everything else lands in Tier 3 or above. No outside award is counted in any budget until it is won.</p>
+  <p class="meta">Mesquite High School (Gilbert Public Schools) · class of 2027 · GPA 3.4722 unweighted / 3.6944 weighted · rank 73/300 · ACT 21 · business major, art minor · Girl Scout CIT graduate · shelter volunteer · grandfather: Air Force, Vietnam era · household ~$160k, so need-based aid assumed $0</p>
+  <p class="meta">Tier 1 = net ≤ $10k/yr · Tier 2 = $10–20k · Tier 3 = $20–30k. <b>Direct cost</b> = tuition + fees + housing + meals. <b>Full COA</b> adds books, transport and personal allowances (typically $4–7k more). 2027–28 budgets are not yet published; 2026–27 figures are planning baselines.</p>
+
+  <div class="urgent">
+    <h3>This week: P.E.O. STAR closes Wednesday, Oct 15, 8:59 pm Arizona time</h3>
+    <p>$2,500 one-time for women graduating in 2027 with a 3.0+ GPA. Only a local chapter can submit the recommendation, one nominee per chapter. P.E.O. Chapter EZ (Mesa, serving Mesa–Apache Junction–Gilbert) is the nearest documented chapter; its public contact page lists president Sharon Odden (msodie@gmail.com). Email today; ask for the STAR chair or a referral to another East Valley chapter if the slot is taken. Draft is in the <a href="#peo">Deadlines</a> section.</p>
+  </div>
+</div></div>
+
+<section id="deadlines"><div class="wrap">
+  <h2>A. Deadlines before December 15, 2026</h2>
+  <p>Sequence: P.E.O. (Oct 15), VFW Voice of Democracy (Oct 31), HHF Youth Awards (Nov 1), NAU Honors (Nov 15), Chandler-Gilbert Presidents' Honors opening (Nov 16), Cal State Apply (Nov 30).</p>
+  <div class="scroll"><table>
+    <thead><tr><th>Due</th><th>Item</th><th>Why it matters</th><th>Submit</th><th>Source</th></tr></thead>
+    <tbody>
+    <tr><td><b>Oct 15, 8:59 pm AZ</b></td><td>P.E.O. STAR chapter recommendation</td><td>$2,500; 3.0+ GPA; age ≤ 20 at year-end; chapter vote required. Olivia then has 30 days for profile, activity charts, ≤700-word essay, two recommendations, junior transcript. Moderate fit; nomination uncertain.</td><td>Parent email/call to Chapter EZ</td><td><a href="https://www.peointernational.org/about-peo-star-scholarship">P.E.O. STAR</a></td></tr>
+    <tr><td>Oct 15 → Dec 15 (or 30,000 apps)</td><td>Burger King Scholars, general track</td><td>$1,000 or $5,000; 2.0+ GPA; no BK tie. Need is one-third of scoring. She misses the $60k WHOPPER award's 3.5 UW floor. Apply early.</td><td>Online app, transcript, activities, financial info</td><td><a href="https://burgerkingscholars.com/">burgerkingscholars.com</a></td></tr>
+    <tr><td><b>Oct 31</b></td><td>VFW Voice of Democracy — “What a Veteran Taught Me About America”</td><td>Arizona winner ≥ $1,000; national up to $35,000; grades 9–12 under 20, no GPA. Her grandfather's Air Force service is the subject (interview him).</td><td>3–5 min audio + typed script + entry form to a local VFW Post</td><td><a href="https://www.vfw.org/VOD/">vfw.org/VOD</a></td></tr>
+    <tr><td><b>Nov 1, 11:59:59 pm PST</b></td><td>Hispanic Heritage Foundation Youth Awards</td><td>Up to $4,000; 3.0 UW GPA; virtual ceremony. HHF's published eligibility has no ancestry threshold, unlike HSF, so the Brazilian grandmother is not a barrier. Lead with leadership and service.</td><td>Application, transcript, recommendation</td><td><a href="https://hispanicheritage.org/programs/leadership/youth-awards/">HHF</a></td></tr>
+    <tr><td>Nov 2</td><td>Oregon State early action (only if OSU stays listed)</td><td>OSU does offer WUE for fall 2027 at 3.4+ UW (a correction), but resident COA alone is $38,568; above budget.</td><td>Common App</td><td><a href="https://financialaid.oregonstate.edu/scholarships/incoming-students">OSU</a></td></tr>
+    <tr><td>Nov 6 (late Nov 29)</td><td>Register for Dec 12 ACT</td><td>Scores Dec 22. Only moves Cottey (needs 30) and ASU (needs 29). Oct 17 is standby-only now.</td><td>act.org</td><td><a href="https://www.washk12.org/counseling/?p=2704">ACT dates</a></td></tr>
+    <tr><td>Nov 12, 11:59 pm PT</td><td>Elks Most Valuable Student</td><td>480 × $4,000 and 20 × $30,000 over four years; open to all; need is one of three factors. Long shot.</td><td>Online app, two recommendations, essay</td><td><a href="https://sanangelolive.com/news/san-angelo/2026-08-19/elks-lodge-offering-most-valuable-student-scholarship">enf.elks.org/MVS</a></td></tr>
+    <tr><td><b>Nov 15, 11:59 pm</b></td><td>NAU Honors College application</td><td>Considered for the limited $1,000 incoming Honors award; 3.0 core GPA minimum. Honors fee $395/semester. Real value: admission opens the Garcia Family scholarship ($4,000/yr). NAU treats AI-written essays as plagiarism.</td><td>Online app + two essays + resume</td><td><a href="https://in.nau.edu/honors-college/admissions/requirements/">NAU Honors</a></td></tr>
+    <tr><td><b>Nov 16 (opens)</b></td><td>Chandler-Gilbert CC Presidents' Honors, fall 2027</td><td>Covers up to 15 credits + registration fee per semester for four semesters; 3.25 UW GPA (she has 3.47). Closing date not posted. This is the Tier 1 path.</td><td>CGCC honors checklist</td><td><a href="https://www.cgc.edu/academics/honors/scholarships">CGCC</a></td></tr>
+    <tr><td>Nov 24 (opens; closes Mar 15)</td><td>Animal Welfare Institute, $3,000 × 12</td><td>Needs an animal-welfare career plan; only if her essay commits business skills to shelter/nonprofit work.</td><td>Application + two recommendations</td><td><a href="https://awionline.org/?p=5034">AWI</a></td></tr>
+    <tr><td>Nov 30</td><td>Cal State Apply (Chico, Humboldt, Bakersfield, Monterey Bay…)</td><td>18 CSUs now offer WUE. Chico and CSUMB also need a signed WUE contract; CSUMB has a 3.0 A-G floor. All land $28–36k, so apply only if California is a priority.</td><td>Cal State Apply ($70/campus) + WUE contract</td><td><a href="https://www.csuchico.edu/admissions/apply/western-undergrad-exchange.shtml">Chico WUE</a></td></tr>
+    <tr><td>Dec 1 – Jan 6 (AZ date on Region Locator)</td><td>Scholastic Art &amp; Writing: Drawing + Senior Art Portfolio</td><td>Gold Medal Portfolio $12,500; Silver w/ Distinction $2,000; partner-college art awards. Fee waivable at checkout.</td><td>Portal upload</td><td><a href="https://cms.artandwriting.org/?p=17736">artandwriting.org</a></td></tr>
+    <tr><td>Now</td><td>FAFSA 2027–28 · NAU ScholarshipUniverse profile</td><td>FAFSA unlocks Garcia, Franke funds and transfer awards; the SU profile is the gateway for Franke (Jan 15–Apr 15) and Whiteman art awards.</td><td>studentaid.gov · nau.scholarshipuniverse.com</td><td><a href="https://nau.scholarshipuniverse.com/">ScholarshipUniverse</a></td></tr>
+    </tbody>
+  </table></div>
+
+  <h3 id="peo">P.E.O. draft email (not sent)</h3>
+  <blockquote><b>Subject:</b> STAR nomination inquiry before October 15 — Olivia, Mesquite High School<br><br>
+  Dear Sharon, I am writing to ask whether P.E.O. Chapter EZ can still consider a student for this year's STAR Scholarship nomination before the October 15 chapter deadline. If you are not the right contact, would you forward this to your STAR chair? My daughter Olivia is a senior at Mesquite High School in Gilbert, graduating May 2027, with a 3.47 unweighted GPA (3.69 weighted), planning to study business with an art minor. She has attended Girl Scout camp for five years, completed the council's two-year Counselor-in-Training program with a strong recommendation from camp leadership, and is a trained animal-shelter volunteer. Would your chapter be willing to interview her and, if she is a good fit, recommend her for STAR? We can provide her transcript, an activities summary and recommender contacts immediately, and she is available for an interview on short notice. If Chapter EZ has already chosen its nominee, could you connect us with another East Valley chapter that may still be considering candidates? Thank you for supporting young women's education. Best regards, [name, phone, email]</blockquote>
+
+  <p class="note">After this window: Gilbert Education Foundation (last cycle Nov 17–Mar 2; 2027 pending) · Arizona Community Foundation portal (~Jan 1) · NAU Franke window (Jan 15–Apr 15) · Eastern Washington automatic awards (Feb 1) · Garcia Family Honors (Feb) · HSF (Jan 5–Feb 15) · ALA Children of Warriors (~Mar 1) · VFW Auxiliary Patriotic Art (Mar 31) · Friends Place and Gilbert Chamber (spring).</p>
+</div></section>
+
+<section id="colleges"><div class="wrap">
+  <h2>B. Colleges by budget tier</h2>
+  <p>Net price at her current stats, direct cost (solid) and full cost of attendance (faded) where both are known. The vertical lines are the $10k, $20k and $30k tier boundaries. Scale runs to $45k.</p>
+
+  <div class="ledger" aria-label="Net cost ledger">
+    <div class="scale"><span style="left:22.2%">$10k</span><span style="left:44.4%">$20k</span><span style="left:66.7%">$30k</span><span style="left:88.9%">$40k</span></div>
+    <div class="row"><div class="name">Chandler-Gilbert CC · Presidents' Honors<small>living at home; tuition covered</small></div><div class="track"><div class="bar full t1" style="width:48.4%"></div><div class="bar t1" style="width:16.2%"></div><span class="val" style="left:16.2%">$7,284 family outlay · $21,800 on CGCC's COA</span></div></div>
+    <div class="row"><div class="name">Salt Lake CC · WUE rate<small>free family housing</small></div><div class="track"><div class="bar full t2" style="width:37.7%"></div><div class="bar t1" style="width:15%"></div><span class="val" style="left:15%">$6,764 tuition · $16,982 on SLCC's at-home COA</span></div></div>
+    <div class="row"><div class="name">NAU · core GPA 3.50–3.74<small>President's $9,000</small></div><div class="track"><div class="bar full t3" style="width:58.5%"></div><div class="bar t2" style="width:43.6%"></div><span class="val" style="left:43.6%">$19,624 · $26,326</span></div></div>
+    <div class="row"><div class="name">NAU · core GPA 3.40–3.49<small>Dean's w/ Distinction $6,500</small></div><div class="track"><div class="bar full t3" style="width:64.1%"></div><div class="bar t3" style="width:49.2%"></div><span class="val" style="left:49.2%">$22,124 · $28,826</span></div></div>
+    <div class="row"><div class="name">Eastern Washington · WUE<small>housing/meals approximate</small></div><div class="track"><div class="bar full over" style="width:75.4%"></div><div class="bar t3" style="width:57.8%"></div><span class="val" style="left:57.8%">≈$26,000 · $33,951</span></div></div>
+    <div class="row"><div class="name">Chico State · WUE<small>fees/meals approximate</small></div><div class="track"><div class="bar t3" style="width:62.7%"></div><span class="val" style="left:62.7%">≈$28,200</span></div></div>
+    <div class="row"><div class="name">Western Oregon · WUE + $2,000 merit</div><div class="track"><div class="bar full over" style="width:75.2%"></div><div class="bar t3" style="width:64%"></div><span class="val" style="left:64%">$28,792 · $33,829</span></div></div>
+    <div class="row"><div class="name">Cottey College · $12,000 merit + $1,500 visit<small>women's, Missouri</small></div><div class="track"><div class="bar t3" style="width:66.6%"></div><span class="val" style="left:66.6%">$29,988 direct (ACT 30: $27,988)</span></div></div>
+    <div class="row"><div class="name">Salem College · $21–26k merit<small>women's, North Carolina; 2027 grid unconfirmed</small></div><div class="track"><div class="bar t3" style="width:61.7%"></div><span class="val" style="left:61.7%">$25,294–$30,294 before indirect</span></div></div>
+    <div class="row"><div class="name">ASU West Valley · Dean's $5,000 + $1,000<small>estimator; Tempe $34,753</small></div><div class="track"><div class="bar over" style="width:69.1%"></div><span class="val" style="left:69.1%">$31,109 full COA</span></div></div>
+    <div class="row"><div class="name">Sweet Briar · $14,000 merit<small>women's, Virginia</small></div><div class="track"><div class="bar over" style="width:76.2%"></div><span class="val" style="left:76.2%">$34,300 direct</span></div></div>
+    <div class="legend"><span><i style="background:var(--t1)"></i>Tier 1</span><span><i style="background:var(--t2)"></i>Tier 2</span><span><i style="background:var(--t3)"></i>Tier 3</span><span><i style="background:var(--over)"></i>Above $30k</span><span><i style="background:var(--t3);opacity:.35"></i>Full COA</span></div>
+  </div>
+
+  <h3>Tier 1 — community college</h3>
+  <div class="scroll"><table>
+    <thead><tr><th>College</th><th>Cost</th><th>Award / rate</th><th>Net</th><th>Notes</th><th>Source</th></tr></thead>
+    <tbody>
+    <tr><td><b>Chandler-Gilbert CC</b> (Maricopa), at home <span class="tag t1">Tier 1</span></td><td>30 credits × $97 + two $15 fees = $2,940/yr</td><td>Presidents' Honors: up to 15 credits + fee per semester × 4 semesters; 3.25 UW; renew at 12 graded credits, 3.25, honors participation</td><td>≈$0 tuition; ≈$7,284 family outlay at $0 rent, ~$3,000 food, $1,800 transport, $984 books, $1,200 personal, $300 fees. CGCC's own COA basis: $21,800.</td><td>Opens Nov 16; enter within three semesters of graduation; no college enrollment after HS first. Associate in Business (transfer), 60–64 credits. Living at home assumed, not confirmed.</td><td><a href="https://www.cgc.edu/academics/honors/scholarships">CGCC</a> · <a href="https://www.maricopa.edu/students/tuition-fees">Maricopa tuition</a></td></tr>
+    <tr><td><b>Salt Lake CC</b>, free family housing <span class="tag t1">Tier 1</span></td><td>Non-resident $15,229/yr; <b>WUE $6,763.76/yr</b> (2026–27 sheet); resident $4,647.50</td><td>WUE for Arizona residents, requested through the residency-classification process in MySLCC (separate step)</td><td>$6,764 + $0 housing. On SLCC's at-home COA with WUE substituted: $16,982 (Tier 2).</td><td>Rolling. <b>WUE time does not count toward Utah residency.</b> Residency = 12 continuous months before the term (≤30 days away), Utah ties, Arizona ties relinquished. Dependent children of a parent transferred/recruited to full-time Utah work may qualify immediately.</td><td><a href="https://slcc.edu/student/financial/tuition-fees.aspx">SLCC tuition</a> · <a href="https://www.slcc.edu/admissions/residency.aspx">SLCC residency</a></td></tr>
+    </tbody>
+  </table></div>
+  <p class="note"><b>What a CC start forfeits.</b> NAU's freshman award ($6,500 × 4 = $26,000) and ASU's New American University award are first-year-only; ASU forfeits it if she enrolls elsewhere after high school (summer excepted). Transfer replacements: NAU 2NAU $1,000/term × 2 yrs (45 credits, 3.0); NAU PTK $4,000/yr × 2 (3.5, PTK member); UA PTK $5,000 resident; All-Arizona Academic Team (competitive, full resident tuition). Not available: NAU Jacks Transfer (needs need), ASU Transfer Achievement Grant (income cap $120k). Two cheap years still win on total cost, with a 3.5 CC GPA and an early transfer course map.</p>
+
+  <h3>Tier 2 — NAU only if core GPA ≥ 3.50</h3>
+  <div class="scroll"><table>
+    <thead><tr><th>College</th><th>Cost</th><th>Award</th><th>Net direct / full</th><th>Notes</th><th>Source</th></tr></thead>
+    <tbody>
+    <tr><td><b>NAU, Flagstaff</b> (Arizona resident), core 3.50–3.74 <span class="tag t2">Tier 2</span></td><td>Direct $28,624 (tuition $12,000 2027–28 + fees $2,377 + housing ≈$8,499 + 10-meal plan $5,748). Full 2026–27 COA $35,326.</td><td>President's $9,000/yr × 8 semesters, automatic; renew at 12+ credits, 2.0 GPA</td><td><b>$19,624</b> / $26,326</td><td>First-year housing + meal plan required. Core GPA uses the 14–16 competency courses, not the 3.4722 cumulative; it could land either side of 3.50. Ask NAU in writing for the core GPA used, the award already offered, and whether senior grades can raise it.</td><td><a href="https://nau.edu/financial-aid/scholarships/freshman/">NAU grid</a> · <a href="https://nau.edu/fees/upcoming-tuition/">NAU fees</a></td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Tier 3 — the realistic four-year list</h3>
+  <div class="scroll"><table>
+    <thead><tr><th>College</th><th>Cost</th><th>Award</th><th>Net direct / full</th><th>ACT effect</th><th>Notes</th><th>Source</th></tr></thead>
+    <tbody>
+    <tr><td><b>NAU</b>, core 3.40–3.49 <span class="tag t3">Tier 3</span></td><td>As above</td><td>Dean's with Distinction $6,500/yr, automatic</td><td><b>$22,124</b> / $28,826</td><td>None</td><td>Honors: $395/semester fee, $1,000 award, Garcia eligibility ($4,000/yr). Franke and Whiteman awards below.</td><td><a href="https://nau.edu/financial-aid/scholarships/freshman/">NAU grid</a></td></tr>
+    <tr><td><b>Eastern Washington</b> (WUE) <span class="tag t3">Tier 3</span> <span class="tag fit">Target · avg 3.32</span></td><td>WUE tuition $11,229 (2025–26) + fees ≈$1,000 + housing/meals ≈$13,500; full non-resident COA $47,379 − $13,428 WUE</td><td>WUE automatic, no GPA floor, all majors</td><td>≈<b>$26,000</b> / $33,951</td><td>None</td><td>Live on campus year 1; sign WUE agreement; Feb 1 priority recurs.</td><td><a href="https://www.ewu.edu/apply/wue/">EWU WUE</a> · <a href="https://www.ewu.edu/afford">EWU cost</a></td></tr>
+    <tr><td><b>Chico State</b> (WUE) <span class="tag t3">Tier 3</span> <span class="tag fit">Target · avg ≈3.45</span></td><td>WUE tuition ≈$10,300 + fees ≈$2,300 + housing $9,628 + meals ≈$6,000</td><td>WUE rate; higher non-resident eligibility index; business eligible</td><td>≈<b>$28,200</b> / not verified</td><td>None</td><td>Cal State Apply by Nov 30 + signed WUE contract.</td><td><a href="https://www.csuchico.edu/fa/cost/">Chico cost</a></td></tr>
+    <tr><td><b>Western Oregon</b> (WUE) <span class="tag t3">Tier 3</span> <span class="tag fit">Target · admits 2.75+</span></td><td>Tuition $15,525 + fees $2,283 + housing $7,597 + food $5,387 = $30,792; full $35,829</td><td>WUE automatic + Merit Award $2,000 at 3.41–3.75 UW ($4,000 at 3.76+)</td><td><b>$28,792</b> / $33,829</td><td>None</td><td>Confirm Business Administration is a WUE-designated major. Rolling.</td><td><a href="https://wou.edu/finaid/scholarships/merit-scholarship/">WOU merit</a> · <a href="https://wou.edu/finaid/tuition-fees/cost-of-attendance/">WOU cost</a></td></tr>
+    <tr><td><b>Cottey College</b> (women's, MO) <span class="tag t3">Tier 3 edge</span> <span class="tag fit">avg 3.50</span></td><td>Tuition $28,400 + fees $2,688 + room $6,200 + meals $6,200 = $43,488</td><td>Grid (2027 unconfirmed): GPA 3.40–3.74 or ACT 27–29 = $12,000; GPA 3.75+ or ACT 30+ = $14,000; higher of GPA/test by Mar 1; + $1,500 visit scholarship. Fine Arts award lists music/theatre only.</td><td><b>$29,988</b> / ≈$33–35k</td><td>ACT 24–27 none; <b>ACT 30: −$2,000</b></td><td>College-paid international week after two semesters. Outside preferred regions.</td><td><a href="https://cottey.edu/financial-aid/grants-and-scholarships/">Cottey</a></td></tr>
+    <tr><td><b>Salem College</b> (women's, NC) <span class="tag t3">Tier 3 edge</span></td><td>Direct $51,294</td><td>Automatic merit $21,000–$26,000; bracket and 2027 grid unconfirmed</td><td><b>$25,294–$30,294</b> before indirect</td><td>None published</td><td>Full-tuition art award needs an art major. Not deeply screened.</td><td><a href="https://www.salem.edu/financialaid/merit-scholarships/">Salem merit</a></td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Checked and set aside (above $30k or need-based)</h3>
+  <ul class="note" style="max-width:none;columns:2;column-gap:2rem">
+    <li><b>ASU</b>: estimator at core 3.47 / rank 73 — Dean's $5,000 (ACT ≤28), Provost's $8,000 (ACT 29–30); Polytechnic/West +$1,000. Tempe $34,753; West Valley $31,109 ($28,109 at ACT 29). Leadership Scholarship ($10,000, one counselor nominee per school, Jan 4) or NGSC (base tuition after other aid, heavy service) would be needed. W. P. Carey direct admit: 3.4 core, ACT 25, or top 8%.</li>
+    <li><b>University of Arizona</b>: holistic merit, no public grid; resident COA $37,270+.</li>
+    <li><b>Sweet Briar</b>: fall 2027 grid $14,000 at 3.28–3.65 (weighting unstated; $17,000 at 3.66–3.99). $48,300 − $14,000 = $34,300.</li>
+    <li><b>Central Washington</b>: Destination Central $15,000 at 3.0+, WUE needs 3.8, no stacking; $34,383.</li>
+    <li><b>Oregon State</b>: WUE at 3.4+ by Feb 1 exists, but resident COA is $38,568 plus business differential.</li>
+    <li><b>UC Merced</b>: $4,000/yr WUE Scholarship for fall 2027 (a correction), but ≈$44,930 − $4,000.</li>
+    <li><b>Western Washington</b>: competitive WUE (floor read as 3.50 in one pass, 3.25 in another); WAE $10–14k still leaves ~$33k.</li>
+    <li><b>Humboldt</b> $33,312 · <b>CSU Bakersfield</b> $35,358 · <b>CSUMB</b> (3.0 A-G floor) · <b>Sonoma</b> ~$36k · <b>Portland State</b> ~$37k · <b>Southern Oregon</b> $37,732 · <b>Evergreen</b> $37,506 · <b>Eastern Oregon</b> (2025–26 pricing only).</li>
+    <li><b>Women's colleges / NYC</b>: Agnes Scott $33,935; Hollins $37,170; Meredith ~$63.5k sticker; Stephens $12,000 at 3.25–3.49 on a fall 2026 grid; Mount Saint Mary's LA, Bay Path, Cedar Crest, Brenau, Simmons, Saint Mary's IN all $34k+; Scripps and Barnard need-based; Pace COA $87,148. None justify the CSS Profile.</li>
+    <li><b>UO, UW, WSU, other UCs</b>: no first-year WUE.</li>
+  </ul>
+</div></section>
+
+<section id="scholarships"><div class="wrap">
+  <h2>C. Outside scholarships</h2>
+  <p>Best use of application time, in order: P.E.O. (this week), Burger King and HHF (November), Gilbert civic awards and the Arizona Community Foundation portal (winter), VFW Auxiliary art (spring), ALA Children of Warriors once its 2027 form posts. Carvana has no usable dependent benefit.</p>
+
+  <h3>High value / high probability</h3>
+  <div class="scroll"><table>
+    <thead><tr><th>Scholarship</th><th>Amount</th><th>Eligibility &amp; fit</th><th>Deadline</th><th>Source</th></tr></thead>
+    <tbody>
+    <tr><td>P.E.O. STAR</td><td>$2,500</td><td>Women graduating 2027, 3.0+, age ≤20; one nominee per chapter. Moderate; depends on an open chapter slot.</td><td>Oct 15 (chapter); +30 days</td><td><a href="https://www.peointernational.org/about-peo-star-scholarship">P.E.O.</a></td></tr>
+    <tr><td>Burger King Scholars</td><td>$1,000 / $5,000</td><td>2.0+ GPA; need weighs one-third. Caps at 30,000 applications.</td><td>Oct 15–Dec 15</td><td><a href="https://burgerkingscholars.com/">BK Scholars</a></td></tr>
+    <tr><td>HHF Youth Awards</td><td>Up to $4,000</td><td>3.0 UW; no ancestry threshold in published rules. National.</td><td>Nov 1</td><td><a href="https://hispanicheritage.org/programs/leadership/youth-awards/">HHF</a></td></tr>
+    <tr><td>VFW Voice of Democracy</td><td>AZ ≥$1,000; national to $35,000</td><td>Grades 9–12 under 20; grandfather is the subject. Moderate locally.</td><td>Oct 31</td><td><a href="https://www.vfw.org/VOD/">VFW</a></td></tr>
+    <tr><td>VFW Auxiliary Young American Creative Patriotic Art</td><td>$15,000 / $7,500 / $4,500 / $4,000 + smaller</td><td>Original current-year 2D work on paper/canvas, 8×10 to 18×24 in. with mat, no frame/glass/digital/AI. A new drawing. Good fit for her medium.</td><td>Mar 31, 2027 (local Auxiliary)</td><td><a href="https://vfwauxiliary.org/scholarships/young-american-creative-patriotic-art-contest/">VFW Auxiliary</a></td></tr>
+    <tr><td>Gilbert Education Foundation</td><td>Varies; one award per student</td><td>GPS seniors (Mesquite is in-district). 2027 cycle pending; last ran Nov 17–Mar 2.</td><td>Expect Nov–Mar</td><td><a href="https://www.gilberteducationfoundation.org/">GEF</a></td></tr>
+    <tr><td>Gilbert Chamber Foundation Scholarship</td><td>Varies</td><td>Gilbert-area seniors with local involvement. Strong, small pool. 2027 dates not posted.</td><td>Spring 2027</td><td><a href="https://gilbertaz.com/blog/funding-your-future-starts-here-scholarship-applications-open">Gilbert Chamber</a></td></tr>
+    <tr><td>Friends Place Community Volunteer Scholarship</td><td>$1,000 × 15 (2024)</td><td>Gilbert residents, 2.5+, volunteer service beyond school hours. Strong if still running.</td><td>~Mar 31, 2027</td><td><a href="https://www.appily.com/scholarships/friends-place-community-volunteer-scholarship">listing</a></td></tr>
+    <tr><td>Arizona Community Foundation portal</td><td>$500–$5,000+ per fund</td><td>One application, many funds (Cox for seniors; Desert Legacy needs adversity). Strong channel, unknown yield.</td><td>Opens ~Jan 1; closes Mar 15–May 15</td><td><a href="https://www.azfoundation.org/scholarships">ACF</a></td></tr>
+    <tr><td>Zonta Young Women in Leadership</td><td>Club $1–2k + $5,000 international</td><td>Women 16–19 with volunteer leadership. Conflicting 2027 dates; ask a Phoenix club.</td><td>Club-set</td><td><a href="https://zonta.org/YWLA">Zonta</a></td></tr>
+    <tr><td>Scholastic Art &amp; Writing</td><td>$12,500 / $2,000 + partner awards</td><td>Drawing + Senior Art Portfolio. Moderate regionally.</td><td>Dec 1–Jan 6</td><td><a href="https://cms.artandwriting.org/?p=17736">Scholastic</a></td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Veteran-descendant awards (grandfather: Air Force, Vietnam era)</h3>
+  <div class="scroll"><table>
+    <thead><tr><th>Scholarship</th><th>Amount</th><th>Eligibility &amp; status</th><th>Deadline</th><th>Source</th></tr></thead>
+    <tbody>
+    <tr><td>American Legion Auxiliary Children of Warriors</td><td>15 × $5,000 (prior cycle)</td><td>Descendants of veterans who served after Dec 7, 1941; no membership needed. 50 documented HS volunteer hours, DD-214/service proof, two recommendations, essay. Promising; 2027 form not yet posted.</td><td>~Mar 1, 2027</td><td><a href="https://www.legion-aux.org/scholarships/children-of-warriors">ALA</a></td></tr>
+    <tr><td>Vietnam Veterans Memorial Fund Legacy of Service</td><td>$2,000 / $5,000 / $10,000</td><td>Descendants (16–30) of veterans who served <b>in the Vietnam War</b>; era service elsewhere may not qualify. 2027 cycle unannounced.</td><td>Watch Mar–May 2027</td><td><a href="https://www.vvmf.org/legacy-of-service/">VVMF</a></td></tr>
+    <tr><td>AMVETS National Scholarship</td><td>Up to $4,000 × 6</td><td>Grandchildren qualify; 3.0 GPA; <b>financial need required</b>. Long shot.</td><td>Apr 30, 2027</td><td><a href="https://sfsu.academicworks.com/opportunities/4598">AMVETS</a></td></tr>
+    <tr><td>Elks Legacy Awards</td><td>$4,000</td><td>Only if he is an Elks member (2+ years).</td><td>Feb 1, 2027</td><td><a href="https://thecollegeinvestor.com/scholarships/elks-legacy-awards">Elks Legacy</a></td></tr>
+    <tr><td>VVA chapter, VFW/Legion post, Air &amp; Space Forces Association</td><td>$500–$2,000 typical</td><td>All membership-dependent; ask which organizations he belongs to.</td><td>Varies</td><td>—</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Long shots and conditional</h3>
+  <div class="scroll"><table>
+    <thead><tr><th>Scholarship</th><th>Amount</th><th>Why</th><th>Deadline</th><th>Source</th></tr></thead>
+    <tbody>
+    <tr><td>Elks Most Valuable Student</td><td>$4,000–$30,000 / 4 yrs</td><td>Need is one of three factors</td><td>Nov 12</td><td><a href="https://sanangelolive.com/news/san-angelo/2026-08-19/elks-lodge-offering-most-valuable-student-scholarship">Elks MVS</a></td></tr>
+    <tr><td>HSF Scholar Program</td><td>$500–$5,000, need-tiered</td><td>Requires self-identified Hispanic heritage; Brazil is conventionally Latino, not Hispanic; no ancestry fraction published. Don't rely on it.</td><td>Jan 5–Feb 15</td><td><a href="https://www.hsf.net/scholarship">HSF</a></td></tr>
+    <tr><td>ASU Leadership Scholarship</td><td>$10,000/yr</td><td>One counselor nominee per high school; 3.25 UW. Ask the counselor now.</td><td>Jan 4, 2027</td><td><a href="https://eoss.asu.edu/lsp/scholarship">ASU LSP</a></td></tr>
+    <tr><td>Animal Welfare Institute</td><td>$3,000 × 12</td><td>Needs an animal-welfare career plan</td><td>Nov 24–Mar 15</td><td><a href="https://awionline.org/?p=5034">AWI</a></td></tr>
+    <tr><td>GE-Reagan Foundation</td><td>Up to $40,000</td><td>National pool; need considered</td><td>~Jan 2027</td><td><a href="https://docs.google.com/spreadsheets/d/10uGfK_9JZgkWIRE8VRMAhPMSWAQ8yXj6/edit">AZ counselor list</a></td></tr>
+    <tr><td>Arizona Society of CPAs</td><td>$1,000</td><td>Only if accounting becomes her field</td><td>Opens Nov</td><td><a href="https://www.ascpa.com/scholarships">ASCPA</a></td></tr>
+    <tr><td>Equitable Excellence</td><td>$5,000 × 4</td><td>Demonstrated need required</td><td>Not current</td><td><a href="https://equitable.com/foundation/equitable-excellence-scholarship">Equitable</a></td></tr>
+    </tbody>
+  </table></div>
+  <p class="note"><b>Excluded:</b> Girl Scout awards (Gold Award/tenure-based; none for CIT grads or camp staff) · P.L.A.Y. Scholars Helping Collars (paused) · DECA/FBLA/NSHSS (membership) · Fleet Reserve and other Navy/Marine/Coast Guard funds (wrong branch) · Carvana KEYS (employees only).</p>
+</div></section>
+
+<section id="programs"><div class="wrap">
+  <h2>D. Funded programs at the recommended schools</h2>
+  <p>NAU carries the most stackable institutional money beyond the tuition grid. None is a sure award; all are $0 in the budgets.</p>
+  <div class="scroll"><table>
+    <thead><tr><th>Program</th><th>School</th><th>What it funds / costs</th><th>Eligibility</th><th>Deadline</th><th>Source</th></tr></thead>
+    <tbody>
+    <tr><td>Honors College</td><td>NAU</td><td>$1,000 limited incoming award; Honors living community; fee $395/semester</td><td>3.0 core, two essays, resume</td><td>Nov 15 (scholarship); Feb 1 housing</td><td><a href="https://in.nau.edu/honors-college/admissions/requirements/">NAU Honors</a></td></tr>
+    <tr><td>Garcia Family Honors Scholarship</td><td>NAU Honors</td><td>$4,000/yr × 4; stackable except Flinn/Dorrance; renew at 3.3</td><td>AZ resident, full-time Honors, uncovered cost; financial info required</td><td>Opens Feb 2027</td><td><a href="https://in.nau.edu/honors-college/resources/scholarships/">Honors scholarships</a></td></tr>
+    <tr><td>Franke College named funds</td><td>NAU</td><td>Bacus (3.0), A. John Briel (2.75, renewable), Langley (3.0), Newlon (AZ resident), Eugene L. Thomas (AZ, 3.0); amounts unpublished</td><td>Business students; freshman inclusion varies</td><td>Jan 15–Apr 15, 2027</td><td><a href="https://in.nau.edu/college-business/student-resources/scholarships/">Franke</a></td></tr>
+    <tr><td>Whiteman Family Endowment for the Arts</td><td>NAU Art + Design</td><td>Portfolio-based; amount unpublished</td><td>Fine-art <b>major or minor</b>, 3.0</td><td>2027 date not posted</td><td><a href="https://nau.edu/school-art-design/resources/scholarships/">Art + Design</a></td></tr>
+    <tr><td>Education abroad on NAU scholarships</td><td>NAU</td><td>Tuition award follows her on NAU exchange/education-abroad programs</td><td>Any recipient</td><td>—</td><td><a href="https://nau.edu/financial-aid/scholarships/freshman/">NAU</a></td></tr>
+    <tr><td>Next Generation Service Corps</td><td>ASU</td><td>Covers base tuition after other ASU aid; certificate, three internships, service; still ~$26,841 at Tempe</td><td>3.0+, essays, two recommendations, interview</td><td>Jan 15 priority</td><td><a href="https://publicservice.asu.edu/ngsc">NGSC</a></td></tr>
+    <tr><td>International experience</td><td>Cottey</td><td>Airfare, lodging, program fees for one week; student pays meals/insurance</td><td>After two full-time semesters</td><td>—</td><td><a href="https://cottey.edu/international-experience/">Cottey</a></td></tr>
+    <tr><td>Camp counselor employment</td><td>Girl Scouts–Arizona Cactus-Pine</td><td>Paid summer staff; covers the “student earnings” assumption; second recommender</td><td>CIT graduates</td><td>Feb–Mar 2027</td><td><a href="https://my.girlscouts.org/content/girlscoutsaz/en/about-our-council/employment-opportunities.html">GSACPC</a></td></tr>
+    </tbody>
+  </table></div>
+  <p class="note">Not found in any pass: a funded business summer bridge, a women-in-business leadership program with money, a funded business co-op, or a drawing-portfolio award ≥$1,000 for a business major/art minor at a WUE school. A gap, not proof none exist.</p>
+</div></section>
+
+<section id="unverified"><div class="wrap">
+  <h2>E. Not verified, and where the passes disagreed</h2>
+  <p>Resolved: SLCC WUE rate, WUE time not counting toward residency, Cottey and Sweet Briar grids, the ASU estimator, the grandfather's branch. Still open:</p>
+  <dl>
+    <dt>NAU core GPA</dt><dd>≥ 3.50 or not: $6,500 vs $9,000/yr, Tier 3 vs Tier 2. The award letter may already say. Counselor or admissions@nau.edu.</dd>
+    <dt>The family's Utah plans</dt><dd>Employer transfer vs. personal move vs. none. A parent transferred/recruited to Utah lets dependents skip the 12-month wait; a parent leaving Arizona before fall 2027 can affect Olivia's Arizona status at NAU/ASU (Prop 308 protects in-state tuition after two AZ high-school years; aid programs apply their own rules). Ask NAU's residency office and SLCC in writing.</dd>
+    <dt>NAU cost basis</dt><dd>Direct $28,624 vs full COA $35,326: same tuition, different books/transport/personal and housing assumptions; 2027–28 living costs unpublished.</dd>
+    <dt>Arizona free housing</dt><dd>The CGCC Tier 1 figure assumes living at home at $0 rent.</dd>
+    <dt>CGCC closing date and residency rules</dt><dd>Posted after Nov 16.</dd>
+    <dt>EWU, Chico housing/fees</dt><dd>Direct costs use approximate housing/meals/fees; full COAs include indirect costs.</dd>
+    <dt>WOU designated majors</dt><dd>Business Administration not confirmed on the WUE list (503-838-8211).</dd>
+    <dt>WWU WUE floor</dt><dd>Read as 3.50 in one pass, 3.25 in another; above budget regardless.</dd>
+    <dt>Cottey Fine Arts award; Sweet Briar GPA weighting; Salem bracket</dt><dd>Ask each admissions office.</dd>
+    <dt>Grandfather's record and memberships</dt><dd>Vietnam War vs era service (VVMF); DD-214; Legion/VFW/VVA/Elks/AFA/TREA membership.</dd>
+    <dt>Olivia's documented volunteer hours</dt><dd>ALA needs 50 documented hours; P.E.O. and Gilbert awards weigh specifics. Camp attendance, CIT training, unpaid service and paid work listed separately.</dd>
+    <dt>HSF heritage ruling · Zonta 2027 timing · GEF/Friends Place/Chamber 2027 cycles · Scholastic AZ date · ALA 2027 form</dt><dd>Check in November and January.</dd>
+    <dt>Transfer terms for 2029</dt><dd>NAU 2NAU stacking, U of U transfer WUE/merit, All-Arizona benefits are current-year terms only.</dd>
+    <dt>Links not re-opened in the merge</dt><dd>P.E.O., Burger King, HHF, OSU, CGCC, ASCPA, GEF, ALA, VVMF, ASU LSP/NGSC, Equitable, Salem, Whiteman, Franke and Garcia URLs come from the family report's source list. Click before relying on a date.</dd>
+  </dl>
+</div></section>
+
+<section id="plan"><div class="wrap">
+  <h2>F. 30-day action plan (Oct 11 – Nov 10, 2026)</h2>
+  <p>P.E.O. tonight, then NAU's core-GPA answer, then the October competitions, then NAU Honors and the November openings. Checkboxes save in this browser only.</p>
+
+  <h3>Oct 11–15: preserve the urgent opportunity</h3>
+  <ul class="check" data-list="w1">
+    <li><input type="checkbox" id="w1a"><label for="w1a">Send the P.E.O. Chapter EZ email and follow up by phone within 48 hours; ask for a referral if its nominee is chosen.</label></li>
+    <li><input type="checkbox" id="w1b"><label for="w1b">Pull Olivia's NAU admission/award letter; ask the counselor to compute NAU's unweighted core GPA.</label></li>
+    <li><input type="checkbox" id="w1c"><label for="w1c">Decide and write down the Utah plan (transfer / personal / none) and whether Olivia would live at home in Gilbert.</label></li>
+    <li><input type="checkbox" id="w1d"><label for="w1d">Start a dated service log: camp attendance, CIT training, shelter hours with supervisor names, paid work, each listed separately.</label></li>
+    <li><input type="checkbox" id="w1e"><label for="w1e">Ask the camp director for a reusable copy of the recommendation; ask the shelter coordinator for a second letter.</label></li>
+    <li><input type="checkbox" id="w1f"><label for="w1f">Call the grandfather: Vietnam assignment, DD-214 location, memberships; ask him to be interviewed for the VFW essay.</label></li>
+    <li><input type="checkbox" id="w1g"><label for="w1g">Prepare Burger King materials (opens Oct 15; caps at 30,000).</label></li>
+  </ul>
+
+  <h3>Oct 16–31: submit the best-fit applications</h3>
+  <ul class="check" data-list="w2">
+    <li><input type="checkbox" id="w2a"><label for="w2a">Submit Burger King Scholars.</label></li>
+    <li><input type="checkbox" id="w2b"><label for="w2b">Complete HHF Youth Awards before Nov 1.</label></li>
+    <li><input type="checkbox" id="w2c"><label for="w2c">Record and hand-deliver VFW Voice of Democracy before Oct 31.</label></li>
+    <li><input type="checkbox" id="w2d"><label for="w2d">Draft the two NAU Honors essays in Olivia's own words; resume.</label></li>
+    <li><input type="checkbox" id="w2e"><label for="w2e">File the 2027–28 FAFSA; keep the Student Aid Index.</label></li>
+    <li><input type="checkbox" id="w2f"><label for="w2f">Ask the counselor about the ASU Leadership Scholarship nomination (Jan 4) and the senior scholarship bulletin.</label></li>
+    <li><input type="checkbox" id="w2g"><label for="w2g">Label artwork (title, medium, size, date); plan one new patriotic drawing for the VFW Auxiliary contest.</label></li>
+  </ul>
+
+  <h3>Nov 1–10: academic and financial setup</h3>
+  <ul class="check" data-list="w3">
+    <li><input type="checkbox" id="w3a"><label for="w3a">Register for the Dec 12 ACT by Nov 6 only if ASU (needs 29) or Cottey (needs 30) is still in play.</label></li>
+    <li><input type="checkbox" id="w3b"><label for="w3b">Decide on Elks MVS (Nov 12); skip if time is short.</label></li>
+    <li><input type="checkbox" id="w3c"><label for="w3c">Submit NAU Honors by Nov 15; accept NAU and pay the enrollment fee (condition of the award; confirm refund date).</label></li>
+    <li><input type="checkbox" id="w3d"><label for="w3d">Prepare the CGCC Presidents' Honors application for its Nov 16 opening.</label></li>
+    <li><input type="checkbox" id="w3e"><label for="w3e">Create the NAU ScholarshipUniverse profile; calendar Franke (Jan 15–Apr 15) and Garcia (Feb).</label></li>
+    <li><input type="checkbox" id="w3f"><label for="w3f">Start Cal State Apply for Chico only if a California campus is a priority (Nov 30).</label></li>
+    <li><input type="checkbox" id="w3g"><label for="w3g">Submit EWU and WOU applications (rolling; EWU Feb 1 for automatic awards).</label></li>
+  </ul>
+
+  <h3>ACT retake verdict</h3>
+  <div class="scroll"><table>
+    <thead><tr><th>Award</th><th>At ACT 21 / test-optional</th><th>At ACT 24–27</th><th>Breakpoint</th></tr></thead>
+    <tbody>
+    <tr><td>NAU Arizona merit</td><td>Core GPA sets it</td><td>No change</td><td>Raise the verified core GPA</td></tr>
+    <tr><td>CGCC Presidents' Honors · SLCC WUE · WUE rates</td><td>GPA / residency</td><td>No change</td><td>None</td></tr>
+    <tr><td>ASU New American University</td><td>Dean's $5,000</td><td>No change</td><td>ACT 29: Provost's $8,000; still above budget</td></tr>
+    <tr><td>Cottey</td><td>$12,000 via GPA band</td><td>No change</td><td>ACT 30: $14,000</td></tr>
+    </tbody>
+  </table></div>
+  <p class="note">If she tests, Dec 12 (register by Nov 6; scores Dec 22) is the only date that reaches Cottey's Mar 1 cutoff and ASU's May 1 score deadline; the Feb 27 test releases Mar 16. An eight-point jump to 29–30 is ambitious; a realistic 23–25 changes nothing here.</p>
+
+  <h3>Three facts that would most change these results</h3>
+  <ol class="note" style="font-size:1rem;color:var(--ink)">
+    <li><b>NAU's own core GPA and the award already offered.</b> A 3.50 moves the award from $6,500 to $9,000 and NAU from Tier 3 to Tier 2.</li>
+    <li><b>The Utah plan and the real housing budget.</b> An employer transfer gives Olivia Utah resident tuition without the wait and could change her Arizona status at NAU; free Gilbert housing is what makes CGCC Tier 1.</li>
+    <li><b>Whether a women's college outside CA/OR/WA/NYC is acceptable.</b> Cottey and Salem are the only ones near Tier 3; every women's college in the preferred regions is need-based or above $34k.</li>
+  </ol>
+</div></section>
+
+<section id="gap"><div class="wrap">
+  <h2>G. Gap-year options that change the money</h2>
+  <p>A gap year does not raise her merit; GPA is frozen at graduation and every award above is GPA-driven. Three gap years change the numbers anyway. Worldpackers-style volunteering is a fine experience but financially neutral.</p>
+  <div class="scroll"><table>
+    <thead><tr><th>Option</th><th>What it produces</th><th>Commitment</th><th>When</th><th>Fit</th><th>Source</th></tr></thead>
+    <tbody>
+    <tr><td><b>Working year in Salt Lake → Utah residency</b></td><td>Resident tuition at every Utah public: SLCC $4,647.50; U of U resident tuition+fees $10,480 vs ~$35k non-resident; UVU, Weber, USU similar. Plus a year of earnings.</td><td>12 continuous months before the term (≤30 days away), Utah license/ID, Arizona ties relinquished; WUE months don't count. Shortcut if a parent is transferred/recruited to full-time Utah work.</td><td>Move by ~July 2027 for fall 2028</td><td><b>Strongest lever.</b> Confirm with SLCC whether a class paid at resident/non-resident (not WUE) rate keeps the clock running under R512.</td><td><a href="https://www.slcc.edu/admissions/residency.aspx">SLCC</a> · <a href="https://admissions.utah.edu/information-resources/residency/helpful-residency-resources/residency-faqs/">U of U FAQ</a></td></tr>
+    <tr><td><b>AmeriCorps NCCC</b></td><td>Segal Education Award $7,395 (usable 7 years; many colleges match); housing, food, travel and a living allowance during service</td><td>10 months, residential, team-based; ages 18–26</td><td>Apply winter–spring 2027 for the fall 2027 class</td><td>Strong: real money, leadership story, no family cost. Check which listed schools match Segal.</td><td><a href="https://americorps.gov/serve/americorps">AmeriCorps</a></td></tr>
+    <tr><td><b>AmeriCorps State/National or VISTA in Utah</b></td><td>Same $7,395 award with a living allowance, while accruing Utah residency</td><td>10–12 months, 1,700 hours</td><td>userve.utah.gov</td><td>Strong: stacks residency and the award in one year</td><td><a href="https://userve.utah.gov/wp-content/uploads/2025/12/AmeriCorps-FAQ-2025.pdf">Utah AmeriCorps</a></td></tr>
+    <tr><td><b>Arizona Air National Guard</b></td><td>State tuition assistance at Arizona publics, federal TA, GI Bill kicker, drill pay</td><td>Six-year enlistment, 4–8 months of training, drills, deployment risk</td><td>Recruiter after 18</td><td>A values decision, not a tactic. Amounts not verified.</td><td>—</td></tr>
+    </tbody>
+  </table></div>
+  <p class="note"><b>Not worth it for money:</b> Worldpackers/Workaway/WWOOF; Rotary Youth Exchange (likely past the age cap); au pair, teach-abroad, Peace Corps (degree or 21+).</p>
+  <p class="note"><b>Deferral questions before accepting any offer:</b> NAU publishes no deferral policy for the freshman award. Ask admissions@nau.edu in writing whether a fall 2027 admit can defer to fall 2028 and keep the 2027–28 tier, and whether AmeriCorps or a residency move counts as an approved gap year. Same for EWU and WOU; CSU generally requires reapplication. If NAU says no, reapplying on the 2028–29 grid is unlikely to be worse than $6,500.</p>
+  <h3>Timeline, Utah + AmeriCorps route</h3>
+  <dl>
+    <dt>Jan–Mar 2027</dt><dd>Apply to NCCC and Utah AmeriCorps positions; get written deferral terms from NAU/EWU/WOU.</dd>
+    <dt>May 2027</dt><dd>Graduate; accept NAU with a deferral request or decline and plan to reapply.</dd>
+    <dt>Jun–Jul 2027</dt><dd>Girl Scout camp counselor; move to Salt Lake by mid-July; Utah license, voter registration, bank account; start work or the AmeriCorps term.</dd>
+    <dt>Fall 2027</dt><dd>FAFSA 2028–29 (Oct 1); apply to SLCC and, if aiming higher, UVU / Weber / U of U for fall 2028.</dd>
+    <dt>Jan–Mar 2028</dt><dd>File Utah residency applications; re-enter ACF, Gilbert and Zonta cycles.</dd>
+    <dt>Jul 2028</dt><dd>12-month residency mark; Segal award posts after the term ends.</dd>
+    <dt>Aug 2028</dt><dd>Start as a Utah resident with $7,395 Segal money plus a year of earnings.</dd>
+  </dl>
+</div></section>
+</main>
+
+<footer><div class="wrap">Research date October 11, 2026. Merged from three passes: the Claude Doc, the “College &amp; Scholarship Findings” family report, and the raw specialist notes. Eligibility is not an award; fit labels are qualitative; budgets exclude unawarded aid and do not subtract loans or earnings. Pages can change after this date.</div></footer>
+
+<script>
+(function(){
+  var key='olivia-plan-checks';
+  var saved={};
+  try{saved=JSON.parse(localStorage.getItem(key)||'{}')}catch(e){}
+  var boxes=document.querySelectorAll('.check input[type=checkbox]');
+  boxes.forEach(function(b){
+    if(saved[b.id]){b.checked=true;b.closest('li').classList.add('done')}
+    b.addEventListener('change',function(){
+      b.closest('li').classList.toggle('done',b.checked);
+      saved[b.id]=b.checked;
+      try{localStorage.setItem(key,JSON.stringify(saved))}catch(e){}
+    });
+  });
+})();
+</script>
+</body>
+</html>
